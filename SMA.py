@@ -20,17 +20,11 @@ class SMA:
                 nbagent-=1
 
     def init_tab(self,taille):
-        tab=[]
-        for i in range(taille):
-            for j in range(taille):
-                tab[i][j] = None 
+        tab=[[None for j in range(taille)] for i in range(taille)]
         return tab
     def runOnce(self):
         #TODO
-        pass    
-    def run(self, nbTours):
-        for i in range(nbTours):
-            self.runOnce()
+        pass
 
 
 
