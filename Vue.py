@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 from SMA import SMA
-
+from time import sleep
 def init():
     global sma
     global Affich
@@ -17,6 +17,7 @@ def init():
         update_grille()
     except ValueError:
         messagebox.showinfo("Erreur","Les valeurs saisies contiennent des erreurs")
+
     
 def update_grille():
     Can.delete(ALL)
@@ -34,16 +35,30 @@ def update_grille():
             else:
                 Affich[(r, c)] = Can.create_text(x, y, text='')  
 
+def runOnce(): 
+    global nbTours
+    sma.runOnce()
+    update_grille()
+    if nbTours > 0:
+        nbTours-=1
+        fenetre.after(100,runOnce)
+        
+
 def run():
-    for i in range(nbTours):
-        sma.runOnce()
-        fenetre.after(10,update_grille)
+    runOnce()
+    
+   
+    
+       
+
+
 fenetre = Tk()
 fenetre.title("TP1")
 frame1=Frame()
 
 
 valeur=Button(frame1,text="valider",command=init)
+runButton=Button(frame1,text="Run",command=run)
 Label(frame1,text= "Veuillez entrer le nombre d'agents").grid(row=0,column=0)
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=1,column=0)
 Label(frame1,text= "Veuillez entrer 0 pour non trorique et 1 pour torique").grid(row=2,column=0)
@@ -57,6 +72,7 @@ case.grid(row=1, column=1)
 torique.grid(row=2, column=1)
 tours.grid(row=3, column=1)
 valeur.grid(row=4,column=1)
+runButton.grid(row= 5, column= 1)
 Can=Canvas(fenetre,height=650,width=650,bg="white")
 
 
