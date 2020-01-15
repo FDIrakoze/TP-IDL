@@ -22,7 +22,9 @@ class Agent:
             nextY = self.posY + self.pasY
         
         if(self.environnement.instance.espace[nextX][nextY] != None):
+            self.color = "red"
             agent2 = self.environnement.instance.espace[nextX][nextY]
+            agent2.color="red"
             oldX = self.pasX
             oldY = self.pasY
 
