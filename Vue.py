@@ -46,7 +46,7 @@ def runOnce():
     update_grille()
     if nbTours > 0:
         nbTours-=1
-        fenetre.after(1000,runOnce)
+        fenetre.after(100,runOnce)
         
 
 def run():
