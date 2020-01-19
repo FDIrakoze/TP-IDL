@@ -7,6 +7,7 @@ def init():
     global Affich
     global nbTours
     global nbCase
+    stop()
     Affich =dict()
     try:
         nbAgent = int(agent.get())
@@ -20,6 +21,7 @@ def init():
 
     
 def update_grille():
+   
     Can.delete(ALL)
     x0,y0=300//nbCase,300//nbCase
     Case=600//nbCase
@@ -31,20 +33,32 @@ def update_grille():
         for c in range(nbCase):
             y = y0 + Case * c + Case // 2   
             if sma.environnement.instance.espace[r][c]!=None:
-                Affich[(r, c)]= Can.create_oval(x-(250//nbCase),y-(250//nbCase),x+(250//nbCase),y+(250//nbCase),fill='black')
+                agent =  sma.environnement.instance.espace[r][c]
+                color = agent.color
+                Affich[(r, c)]= Can.create_oval(x-(250//nbCase),y-(250//nbCase),x+(250//nbCase),y+(250//nbCase),fill=color)
             else:
                 Affich[(r, c)] = Can.create_text(x, y, text='')  
 
+
+def stop ():
+    global Arret
+    Arret=True
+
 def runOnce(): 
+    global Arret
     global nbTours
     sma.runOnce()
     update_grille()
     if nbTours > 0:
+        if(Arret):
+            return
         nbTours-=1
         fenetre.after(100,runOnce)
         
 
 def run():
+    global Arret 
+    Arret = False
     runOnce()
     
    

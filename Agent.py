@@ -30,15 +30,14 @@ class Agent:
 
             self.pasX = agent2.pasX
             self.pasY = agent2.pasY
+
+
             agent2.pasX = oldX
             agent2.pasY = oldY
-        
+        else : 
             
-        self.posX += self.pasX
-        self.posY += self.pasY
-        print("Ax")
-        print(self.posX)
-        print("Ay")
-        print(self.posY)
+            self.posX += self.pasX
+            self.posY += self.pasY
+        
         self.environnement.instance.espace[self.posX][self.posY] = self
         pass
