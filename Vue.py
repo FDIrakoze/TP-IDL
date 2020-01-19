@@ -2,12 +2,16 @@ from tkinter import *
 from tkinter import messagebox
 from SMA import SMA
 from time import sleep
+sma = None
+Affich = dict()
+nbTours = 0
+nbCase = 0
 def init():
     global sma
     global Affich
     global nbTours
     global nbCase
-    Affich =dict()
+    
     try:
         nbAgent = int(agent.get())
         nbCase = int(case.get())
@@ -20,6 +24,7 @@ def init():
 
     
 def update_grille():
+    global sma
     Can.delete(ALL)
     x0,y0=300//nbCase,300//nbCase
     Case=600//nbCase
@@ -31,7 +36,7 @@ def update_grille():
         for c in range(nbCase):
             y = y0 + Case * c + Case // 2   
             if sma.environnement.instance.espace[r][c]!=None:
-                Affich[(r, c)]= Can.create_oval(x-(250//nbCase),y-(250//nbCase),x+(250//nbCase),y+(250//nbCase),fill='black')
+                Affich[(r, c)]= Can.create_oval(x-(250//nbCase),y-(250//nbCase),x+(250//nbCase),y+(250//nbCase),fill=sma.environnement.instance.espace[r][c].color)
             else:
                 Affich[(r, c)] = Can.create_text(x, y, text='')  
 
@@ -41,7 +46,7 @@ def runOnce():
     update_grille()
     if nbTours > 0:
         nbTours-=1
-        fenetre.after(100,runOnce)
+        fenetre.after(1000,runOnce)
         
 
 def run():
@@ -72,10 +77,11 @@ case.grid(row=1, column=1)
 torique.grid(row=2, column=1)
 tours.grid(row=3, column=1)
 valeur.grid(row=4,column=1)
-runButton.grid(row= 5, column= 1)
+runButton.grid(row= 4, column= 2)
 Can=Canvas(fenetre,height=650,width=650,bg="white")
 
 
 frame1.pack()
 Can.pack()
+fenetre.resizable(True, True)
 fenetre.mainloop()
