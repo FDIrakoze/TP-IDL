@@ -1,4 +1,6 @@
 import random 
+
+
 class Agent:
     def __init__(self, posX, posY, env):
         pas = [-1,1]
@@ -26,7 +28,9 @@ class Agent:
         if(nextX < 0 and self.environnement.instance.torique ):
             nextX = taille - 1
         return nextX, nextY
+
     def decide(self, taille):
+        collision = 0
         self.environnement.instance.espace[self.posX][self.posY] = None 
         nextX = self.posX + self.pasX
         nextY = self.posY + self.pasY
@@ -45,6 +49,7 @@ class Agent:
             nextX = self.posX + self.pasX
             nextY = self.posY + self.pasY
             nextX, nextY = self.next_step(nextX=nextX, nextY=nextY,taille=taille)
+            collision = 1
             
         
             
@@ -55,4 +60,5 @@ class Agent:
         print("Ay")
         print(self.posY)
         self.environnement.instance.espace[self.posX][self.posY] = self
-        pass
+        return collision
+        
