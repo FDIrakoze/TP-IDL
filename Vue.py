@@ -107,7 +107,7 @@ delay.grid(row=4,column=1)
 valeur.grid(row=5,column=0)
 runButton.grid(row= 5, column= 1)
 graph.grid(row= 5, column= 2)
-Can=Canvas(fenetre,height=650,width=650,bg="white")
+Can=Canvas(fenetre,height=700,width=700,bg="white")
 
 
 frame1.pack()

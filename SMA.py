@@ -10,8 +10,8 @@ class SMA:
         self.taille=taille
         self.agents = []
         self.init_agent(nbagent,taille)
-        self.all_collisions = []
-        self.nb_color = {'red' : [] , 'black': []}
+        self.all_collisions = [0]
+        self.nb_color = {'red' : [0] , 'black': [0]}
         
         
 
