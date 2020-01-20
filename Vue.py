@@ -16,15 +16,16 @@ def init():
     global infinite
     try:
         infinite = False
-        nbAgent = int(agent.get())
+        fish = int(nbFish.get())
         nbCase = int(case.get())
         isTorique = int(torique.get())
         time_delay = int(delay.get())
         nbTours = int(tours.get())
+        fbreedTime = int(fishBreedTime.get())
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, nbAgent)
+        sma= SMA(nbCase, isTorique, fish, fbreedTime, 0,0,0)
         update_grille()
     except ValueError as e:
         messagebox.showinfo("Erreur","Les valeurs saisies contiennent des erreurs")
@@ -89,17 +90,20 @@ frame1=Frame()
 valeur=Button(frame1,text="valider",command=init)
 runButton=Button(frame1,text="Run",command=run)
 graph=Button(frame1,text="Show Graph",command=showGraph)
-Label(frame1,text= "Veuillez entrer le nombre d'agents").grid(row=0,column=0)
+Label(frame1,text= "Veuillez entrer le nombre de fish").grid(row=0,column=0)
+Label(frame1,text= "Veuillez entrer le breedTime des fish").grid(row=0,column=2)
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=1,column=0)
 Label(frame1,text= "Veuillez entrer 0 pour non trorique et 1 pour torique").grid(row=2,column=0)
 Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=3,column=0)
 Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=4,column=0)
-agent=Entry(frame1)
+nbFish=Entry(frame1) 
+fishBreedTime=Entry(frame1)
 case=Entry(frame1)
 torique=Entry(frame1)
 delay=Entry(frame1)
 tours=Entry(frame1)
-agent.grid(row=0,column=1)
+nbFish.grid(row=0,column=1)
+fishBreedTime.grid(row=0, column=3)
 case.grid(row=1, column=1)
 torique.grid(row=2, column=1)
 tours.grid(row=3, column=1)

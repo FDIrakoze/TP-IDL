@@ -1,8 +1,7 @@
 import random 
-
-
-class Agent:
-    def __init__(self, posX, posY, env):
+from Agent import Agent
+class Fish(Agent):
+    def __init__(self, posX, posY, env, breedTime):
         pas = [-1,1]
         self.posX = posX
         self.posY = posY
@@ -10,37 +9,18 @@ class Agent:
         self.pasY = pas[random.randint(0,1)]
         self.color = "black"
         self.environnement = env
-    
-    def next_step(self, nextX, nextY, taille):
-        if(nextX == taille or nextX < 0 and not self.environnement.instance.torique) : 
-                self.pasX = - self.pasX
-                nextX = self.posX + self.pasX
-        
-        if(nextY == taille or nextY < 0 and not self.environnement.instance.torique) : 
-            self.pasY = - self.pasY
-            nextY = self.posY + self.pasY
-        if (nextY == taille and self.environnement.instance.torique):
-            nextY = nextY % taille
-        if(nextY < 0 and self.environnement.instance.torique ):
-            nextY = taille - 1
-        if (nextX == taille and self.environnement.instance.torique):
-            nextX = nextX % taille
-        if(nextX < 0 and self.environnement.instance.torique ):
-            nextX = taille - 1
-        return nextX, nextY
+        self.breedTime = breedTime
+        self.initialBreedTime = breedTime
+        self.alive = True
 
-    ##def voisin(self): 
-        ## retourne une liste de tuple avec les pos x,y vide 
-    def decide(self, taille):
+    def decide(self, taille) : 
         collision = 0
         self.environnement.instance.espace[self.posX][self.posY] = None 
         nextX = self.posX + self.pasX
         nextY = self.posY + self.pasY
         nextX, nextY = self.next_step(nextX=nextX, nextY=nextY,taille=taille)
         if(self.environnement.instance.espace[nextX][nextY] != None):
-            self.color = "red"
             agent2 = self.environnement.instance.espace[nextX][nextY]
-            agent2.color="red"
             oldX = self.pasX
             oldY = self.pasY
 
@@ -52,12 +32,19 @@ class Agent:
             nextY = self.posY + self.pasY
             nextX, nextY = self.next_step(nextX=nextX, nextY=nextY,taille=taille)
             collision = 1
-            
         
-            
+        
+        
+        old_posX = self.posX
+        old_posY = self.posY    
         self.posX = nextX
         self.posY = nextY
-        
+        if(self.breedTime == 0): 
+            self.environnement.instance.espace[old_posX][old_posY] = Fish(old_posX, old_posY, self.environnement,self.breedTime )
+            self.breedTime = self.initialBreedTime
+        else :
+            self.breedTime -=1
+
         self.environnement.instance.espace[self.posX][self.posY] = self
+
         return collision
-        
