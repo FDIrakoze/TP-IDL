@@ -26,7 +26,7 @@ def init():
             nbTours=1
         sma= SMA(nbCase, isTorique, nbAgent)
         update_grille()
-    except ValueError:
+    except ValueError as e:
         messagebox.showinfo("Erreur","Les valeurs saisies contiennent des erreurs")
 
     
