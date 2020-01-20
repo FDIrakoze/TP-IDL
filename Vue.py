@@ -64,9 +64,16 @@ def run():
     runOnce()
 
 def showGraph():
+    plt.subplot(211)
     plt.plot(sma.all_collisions)
     plt.xlabel('tick')
     plt.ylabel('collisions')
+    
+    plt.subplot(212)
+    plt.plot(sma.nb_color["black"], color="black")
+    plt.plot(sma.nb_color["red"], color="red")
+    plt.xlabel('tick')
+    plt.ylabel('nb couleurs')
     plt.show()
    
     
@@ -76,6 +83,7 @@ def showGraph():
 fenetre = Tk()
 fenetre.title("TP1")
 frame1=Frame()
+
 
 
 valeur=Button(frame1,text="valider",command=init)

@@ -55,10 +55,7 @@ class Agent:
             
         self.posX = nextX
         self.posY = nextY
-        print("Ax")
-        print(self.posX)
-        print("Ay")
-        print(self.posY)
+        
         self.environnement.instance.espace[self.posX][self.posY] = self
         return collision
         

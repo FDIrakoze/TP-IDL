@@ -11,6 +11,7 @@ class SMA:
         self.agents = []
         self.init_agent(nbagent,taille)
         self.all_collisions = []
+        self.nb_color = {'red' : [] , 'black': []}
         
         
 
@@ -29,12 +30,20 @@ class SMA:
         return tab
     def runOnce(self):
         collision = 0
+        red = 0
+        black = 0
         for a in self.agents :
             prev_color = a.color
             c = a.decide(self.taille) 
             #if(prev_color == "black" and a.color=="red"):
+            if(prev_color=="black"):
+                black+=1
+            elif(prev_color=="red"):
+                red+=1
+
             collision += c
-            
+        self.nb_color['black'].append(black)
+        self.nb_color['red'].append(red)
         self.all_collisions.append(collision)
 
 
