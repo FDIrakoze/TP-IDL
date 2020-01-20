@@ -16,14 +16,22 @@ class SMA:
         
 
     def init_agent(self,nbagent, taille):
-        while nbagent > 0 : 
-            i = random.randint(0,taille-1)
-            j = random.randint(0,taille-1)
-            if(self.environnement.instance.espace[i][j] == None) : 
-                agent= Agent(i,j, self.environnement)
-                self.agents.append(agent)
-                self.environnement.instance.espace[i][j] = agent        
-                nbagent-=1
+        list_ij = []
+        for i in range(taille) : 
+            for j in range(taille) :
+                list_ij.append((i,j))
+
+        while nbagent > 0 :
+            if(len(list_ij) == 1 and len(list_ij)==1): 
+                i,j = list_ij.pop(0)
+            else : 
+                i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
+               
+            #if(self.environnement.instance.espace[i][j] == None) : 
+            agent= Agent(i,j, self.environnement)
+            self.agents.append(agent)
+            self.environnement.instance.espace[i][j] = agent        
+            nbagent-=1
 
     def init_tab(self,taille):
         tab=[[None for j in range(taille)] for i in range(taille)]
