@@ -32,8 +32,8 @@ class SMA:
         for a in self.agents :
             prev_color = a.color
             c = a.decide(self.taille) 
-            if(prev_color == "black" and a.color=="red"):
-                collision += c
+            #if(prev_color == "black" and a.color=="red"):
+            collision += c
             
         self.all_collisions.append(collision)
 
