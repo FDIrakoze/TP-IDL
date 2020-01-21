@@ -14,6 +14,9 @@ class Fish(Agent):
         self.alive = True
 
     def decide(self, taille) : 
+        deplacement = self.voisin(taille)
+
+        """
         collision = 0
         self.environnement.instance.espace[self.posX][self.posY] = None 
         nextX = self.posX + self.pasX
@@ -39,12 +42,23 @@ class Fish(Agent):
         old_posY = self.posY    
         self.posX = nextX
         self.posY = nextY
+        """
+        fish = None
         if(self.breedTime == 0): 
-            self.environnement.instance.espace[old_posX][old_posY] = Fish(old_posX, old_posY, self.environnement,self.initialBreedTime )
+            fish =  Fish(self.posX, self.posY, self.environnement,self.initialBreedTime )
             self.breedTime = self.initialBreedTime
         else :
             self.breedTime -=1
+        
+        if(len(deplacement)>0):
+            x,y = deplacement[random.randint(0,len(deplacement)-1)]
+            self.environnement.instance.espace[self.posX][self.posY] = fish
+            self.environnement.instance.espace[x][y] = self
+            self.posX = x
+            self.posY = y
+        else : 
+            pass 
 
-        self.environnement.instance.espace[self.posX][self.posY] = self
+        #self.environnement.instance.espace[self.posX][self.posY] = self
 
-        return collision
+        return 0

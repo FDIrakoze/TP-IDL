@@ -41,7 +41,7 @@ class Agent:
         for i in possible :
             x,y = i
             if((x>=0 and x<taille) and (y>=0 and y<taille)):
-                if(self.environnement[x][y]):
+                if(self.environnement.instance.espace[x][y]==None):
                     voisins.append((x,y))
         return voisins
     def decide(self, taille):
