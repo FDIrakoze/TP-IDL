@@ -1,6 +1,7 @@
 from Environnement import Environnement
 from Agent import Agent
 from Fish import Fish
+from Shark import Shark
 import random
 class SMA:
     
@@ -15,6 +16,7 @@ class SMA:
         self.init_agent(nbfish,fishBreedTime, nbShark,sharkBreedTime, sharkStarveTime, taille)
         self.all_collisions = [0]
         self.nb_color = {'red' : [0] , 'black': [0]}
+
         
         
 
@@ -42,9 +44,9 @@ class SMA:
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
             #if(self.environnement.instance.espace[i][j] == None) : 
-            agent= Agent(i,j, self.environnement)
-            self.agents.append(agent)
-            self.environnement.instance.espace[i][j] = agent        
+            shark= Shark(i,j, self.environnement, sharkBreedTime, sharkStarveTime)
+            self.agents.append(shark)
+            self.environnement.instance.espace[i][j] = shark        
             nbShark-=1
 
     def init_tab(self,taille):
@@ -55,7 +57,11 @@ class SMA:
         self.agents=[]
         for i in range(self.taille) : 
             for j in range(self.taille):
+                
                 agent = self.environnement.instance.espace[i][j]
+                if not (agent != None and agent.alive) : 
+                    self.environnement.instance.espace[i][j] = None 
+                    agent = None
                 if(agent != None):
                     self.agents.append(agent)
 

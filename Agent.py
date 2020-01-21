@@ -37,13 +37,16 @@ class Agent:
         [-1][-1]| [0][-1]|[1][-1]
         """
         possible = [(self.posX-1, self.posY+1),(self.posX, self.posY+1),(self.posX+1, self.posY+1),(self.posX-1, self.posY),(self.posX+1, self.posY),(self.posX-1, self.posY-1),(self.posX, self.posY-1),(self.posX+1, self.posY-1)]
-        voisins = []
+        voisins = {'deplacement': [], 'agent' : []}
         for i in possible :
             x,y = i
             if((x>=0 and x<taille) and (y>=0 and y<taille)):
                 if(self.environnement.instance.espace[x][y]==None):
-                    voisins.append((x,y))
+                    voisins['deplacement'].append((x,y))
+                else : 
+                    voisins['agent'].append((x,y))
         return voisins
+    """    
     def decide(self, taille):
         collision = 0
         self.environnement.instance.espace[self.posX][self.posY] = None 
@@ -73,4 +76,4 @@ class Agent:
         
         self.environnement.instance.espace[self.posX][self.posY] = self
         return collision
-        
+        """
