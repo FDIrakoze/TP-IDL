@@ -29,8 +29,21 @@ class Agent:
             nextX = taille - 1
         return nextX, nextY
 
-    ##def voisin(self): 
-        ## retourne une liste de tuple avec les pos x,y vide 
+    def voisin(self, taille): 
+        #retourne une liste de tuple avec les pos x,y vide 
+        """
+        [-1][1] |[0][1]   |[1][1]
+        [-1][0] |  [A]    |[1][0]
+        [-1][-1]| [0][-1]|[1][-1]
+        """
+        possible = [(self.posX-1, self.posY+1),(self.posX, self.posY+1),(self.posX+1, self.posY+1),(self.posX-1, self.posY),(self.posX+1, self.posY),(self.posX-1, self.posY-1),(self.posX, self.posY-1),(self.posX+1, self.posY-1)]
+        voisins = []
+        for i in possible :
+            x,y = i
+            if((x>=0 and x<taille) and (y>=0 and y<taille)):
+                if(self.environnement[x][y]):
+                    voisins.append((x,y))
+        return voisins
     def decide(self, taille):
         collision = 0
         self.environnement.instance.espace[self.posX][self.posY] = None 

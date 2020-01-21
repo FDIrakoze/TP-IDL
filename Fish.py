@@ -40,7 +40,7 @@ class Fish(Agent):
         self.posX = nextX
         self.posY = nextY
         if(self.breedTime == 0): 
-            self.environnement.instance.espace[old_posX][old_posY] = Fish(old_posX, old_posY, self.environnement,self.breedTime )
+            self.environnement.instance.espace[old_posX][old_posY] = Fish(old_posX, old_posY, self.environnement,self.initialBreedTime )
             self.breedTime = self.initialBreedTime
         else :
             self.breedTime -=1
