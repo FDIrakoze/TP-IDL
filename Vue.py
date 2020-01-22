@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, IntVar, Checkbutton
 from time import sleep
 from SMA import SMA
 import matplotlib.pyplot as plt
@@ -7,6 +7,7 @@ sma = None
 Affich = dict()
 nbTours = 0
 nbCase = 0
+tab = 1
 def init():
     global sma
     global Affich
@@ -14,11 +15,13 @@ def init():
     global nbCase
     global time_delay
     global infinite
+    global tab
     try:
         infinite = False
         fish = int(nbFish.get())
         nbCase = int(case.get())
-        isTorique = int(torique.get())
+        isTorique = int(vTorique.get())
+        tab = int(vTab.get())
         time_delay = int(delay.get())
         nbTours = int(tours.get())
         fbreedTime = int(fishBreedTime.get())
@@ -31,6 +34,7 @@ def init():
         sma= SMA(nbCase, isTorique, fish, fbreedTime, shark,sbreedTime,sstarveTime)
         update_grille()
     except ValueError as e:
+        print(e)
         messagebox.showinfo("Erreur","Les valeurs saisies contiennent des erreurs")
 
     
@@ -39,9 +43,10 @@ def update_grille():
     Can.delete(ALL)
     x0,y0=300//nbCase,300//nbCase
     Case=600//nbCase
-    for i in range(nbCase+1):
-        Can.create_line(x0+Case*i, y0,x0+Case*i,y0 + nbCase*Case)
-        Can.create_line(x0, y0+Case*i,x0+nbCase*Case ,y0+Case*i)
+    if tab:
+        for i in range(nbCase+1):
+            Can.create_line(x0+Case*i, y0,x0+Case*i,y0 + nbCase*Case)
+            Can.create_line(x0, y0+Case*i,x0+nbCase*Case ,y0+Case*i)
     for r in range(nbCase):
         x = x0 + Case * r + Case // 2
         for c in range(nbCase):
@@ -90,7 +95,10 @@ fenetre.title("TP1")
 frame1=Frame()
 
 
-
+vTab= IntVar ()
+vTorique= IntVar()
+Checkbutton (frame1, text="tableau", variable = vTab).grid(row=5,column=1)
+Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=5,column=0)
 valeur=Button(frame1,text="valider",command=init)
 runButton=Button(frame1,text="Run",command=run)
 graph=Button(frame1,text="Show Graph",command=showGraph)
@@ -102,9 +110,8 @@ Label(frame1,text= "Veuillez entrer le breedTime des shark").grid(row=1,column=2
 Label(frame1,text= "Veuillez entrer le starve time des shark").grid(row=1,column=4)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)
-Label(frame1,text= "Veuillez entrer 0 pour non trorique et 1 pour torique").grid(row=3,column=0)
-Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=4,column=0)
-Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=5,column=0)
+Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=3,column=0)
+Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=4,column=0)
 nbFish=Entry(frame1) 
 nbShark=Entry(frame1)
 sharkBreedTime=Entry(frame1)
@@ -122,9 +129,8 @@ sharkBreedTime.grid(row=1,column=3)
 sharkStarveTime.grid(row=1,column=5)
 
 case.grid(row=2, column=1)
-torique.grid(row=3, column=1)
-tours.grid(row=4, column=1)
-delay.grid(row=5,column=1)
+tours.grid(row=3, column=1)
+delay.grid(row=4,column=1)
 valeur.grid(row=6,column=0)
 runButton.grid(row= 6, column= 1)
 graph.grid(row= 6, column= 2)
