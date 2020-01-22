@@ -14,8 +14,9 @@ class SMA:
         self.shark = []
         self.agents = []
         self.init_agent(nbfish,fishBreedTime, nbShark,sharkBreedTime, sharkStarveTime, taille)
-        self.all_collisions = [0]
-        self.nb_color = {'red' : [0] , 'black': [0]}
+        
+
+        self.data = {"fish":[0], 'shark':[0]}
 
         
         
@@ -55,34 +56,30 @@ class SMA:
 
     def updateAgents(self) : 
         self.agents=[]
+        fish = 0
+        shark=0
         for i in range(self.taille) : 
             for j in range(self.taille):
                 
                 agent = self.environnement.instance.espace[i][j]
-                if not (agent != None and agent.alive) : 
+                if(agent !=None and agent.alive and isinstance(agent,Fish)):
+                    fish+=1
+                elif(agent !=None and agent.alive and isinstance(agent,Shark)):
+                    shark+=1
+                if(agent != None and not agent.alive) : 
                     self.environnement.instance.espace[i][j] = None 
-                    agent = None
+                    continue
                 if(agent != None):
                     self.agents.append(agent)
+        self.data['fish'].append(fish)
+        self.data['shark'].append(shark)
 
     def runOnce(self):
-        collision = 0
-        red = 0
-        black = 0
         self.updateAgents()
         for a in self.agents :
             prev_color = a.color
             c = a.decide(self.taille) 
-            #if(prev_color == "black" and a.color=="red"):
-            if(prev_color=="black"):
-                black+=1
-            elif(prev_color=="red"):
-                red+=1
-
-            collision += c
-        self.nb_color['black'].append(black)
-        self.nb_color['red'].append(red)
-        self.all_collisions.append(collision)
+           
 
 
 

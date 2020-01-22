@@ -68,14 +68,15 @@ def run():
     runOnce()
 
 def showGraph():
+    
     plt.subplot(211)
-    plt.plot(sma.all_collisions)
+    plt.plot([])
     plt.xlabel('tick')
     plt.ylabel('collisions')
     
     plt.subplot(212)
-    plt.plot(sma.nb_color["black"], color="black")
-    plt.plot(sma.nb_color["red"], color="red")
+    plt.plot(sma.data["fish"], color="blue")
+    plt.plot(sma.data["shark"], color="red")
     plt.xlabel('tick')
     plt.ylabel('nb couleurs')
     plt.show()
