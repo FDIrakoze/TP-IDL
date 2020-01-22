@@ -14,6 +14,7 @@ class Fish(Agent):
         self.alive = True
 
     def decide(self, taille) : 
+        newFish = 0
         if(self.alive):
             voisins = self.voisin(taille)
             deplacement  = voisins['deplacement']
@@ -21,6 +22,7 @@ class Fish(Agent):
             if(self.breedTime == 0): 
                 fish =  Fish(self.posX, self.posY, self.environnement,self.initialBreedTime )
                 self.breedTime = self.initialBreedTime
+                newFish=1
             else :
                 self.breedTime -=1
             
@@ -35,4 +37,4 @@ class Fish(Agent):
         
         #self.environnement.instance.espace[self.posX][self.posY] = self
 
-        return 0
+        return newFish
