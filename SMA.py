@@ -16,7 +16,7 @@ class SMA:
         self.init_agent(nbfish,fishBreedTime, nbShark,sharkBreedTime, sharkStarveTime, taille)
         
 
-        self.data = {"fish":[0], 'shark':[0]}
+        self.data = {"fish":[0], 'shark':[0], "newshark":[0],"newfish":[0]}
 
         
         
@@ -75,10 +75,18 @@ class SMA:
         self.data['shark'].append(shark)
 
     def runOnce(self):
+        newFish = 0
+        newShark = 0
         self.updateAgents()
         for a in self.agents :
             prev_color = a.color
-            c = a.decide(self.taille) 
+            c = a.decide(self.taille)
+            if(isinstance(a, Fish)): 
+                newFish += c
+            if(isinstance(a, Shark)): 
+                newShark += c
+        self.data['newshark'].append(newShark)
+        self.data['newfish'].append(newFish)
            
 
 

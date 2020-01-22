@@ -75,15 +75,16 @@ def run():
 def showGraph():
     
     plt.subplot(211)
-    plt.plot([])
+    plt.plot(sma.data["newfish"], color="green")
+    plt.plot(sma.data["newshark"], color="red")
     plt.xlabel('tick')
-    plt.ylabel('collisions')
+    plt.ylabel('nb new fish (green) and new shark (red) ')
     
     plt.subplot(212)
     plt.plot(sma.data["fish"], color="green")
     plt.plot(sma.data["shark"], color="red")
     plt.xlabel('tick')
-    plt.ylabel('nb couleurs')
+    plt.ylabel('nb fish (green) and shark (red) ')
     plt.show()
    
     

@@ -26,6 +26,7 @@ class Shark(Agent):
         return fish 
 
     def decide(self, taille) : 
+        newShark = 0
         if(self.starveTime == 0):
             self.alive = False
         if(self.alive):
@@ -53,6 +54,7 @@ class Shark(Agent):
                 self.environnement.instance.espace[x][y] = self
                 self.breedTime = self.initialBreedTime
                 self.starveTime -= 1
+                newShark = 1
 
             elif(len(deplacement)>0):
                 x,y = deplacement[random.randint(0,len(deplacement)-1)]
@@ -66,8 +68,8 @@ class Shark(Agent):
 
             
             else : 
-                return 0 
+                return newShark 
         
         #self.environnement.instance.espace[self.posX][self.posY] = self
 
-        return 0
+        return newShark
