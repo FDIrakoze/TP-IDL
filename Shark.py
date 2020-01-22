@@ -27,8 +27,10 @@ class Shark(Agent):
 
     def decide(self, taille) : 
         newShark = 0
+        deathShark=0
         if(self.starveTime == 0):
             self.alive = False
+            deathShark=1
         if(self.alive):
             voisins = self.voisin(taille)
             deplacement  = voisins['deplacement']
@@ -64,12 +66,8 @@ class Shark(Agent):
                 self.posY = y
                 self.breedTime -=1
                 self.starveTime -= 1
-                
-
             
-            else : 
-                return newShark 
         
         #self.environnement.instance.espace[self.posX][self.posY] = self
 
-        return newShark
+        return (newShark,deathShark)

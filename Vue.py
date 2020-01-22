@@ -61,8 +61,13 @@ def runOnce():
     global nbTours
     global infinite
     global time_delay
+    global nShark
+    global nFish
     sma.runOnce()
     update_grille()
+    nShark.set(str(sma.data["shark"][-1]))
+
+    nFish.set(str(sma.data["fish"][-1]))
     if nbTours > 0:
         if not (infinite):
             nbTours-=1
@@ -74,18 +79,26 @@ def run():
 
 def showGraph():
     
-    plt.subplot(211)
-    plt.plot(sma.data["newfish"], color="green")
-    plt.plot(sma.data["newshark"], color="red")
-    plt.xlabel('tick')
-    plt.ylabel('nb new fish (green) and new shark (red) ')
+
+    fig, axs = plt.subplots(3 )
+    fig.suptitle('fish : green / shark : red')
+    axs[0].plot(sma.data["deathFish"], color="green")
+    axs[0].plot(sma.data["deathShark"], color="red")
     
-    plt.subplot(212)
-    plt.plot(sma.data["fish"], color="green")
-    plt.plot(sma.data["shark"], color="red")
+   
+    axs[0].set_title("Death")
+
+    axs[1].plot(sma.data["newfish"], color="green")
+    axs[1].plot(sma.data["newshark"], color="red")
+    axs[1].set_title('New')
+
+    axs[2].plot(sma.data["fish"], color="green")
+    axs[2].plot(sma.data["shark"], color="red")
+    axs[2].set_title('Population')
     plt.xlabel('tick')
-    plt.ylabel('nb fish (green) and shark (red) ')
     plt.show()
+    
+    
    
     
        
@@ -95,6 +108,7 @@ fenetre = Tk()
 fenetre.title("TP1")
 frame1=Frame()
 
+frame2=Frame()
 
 vTab= IntVar ()
 vTorique= IntVar()
@@ -135,10 +149,24 @@ delay.grid(row=4,column=1)
 valeur.grid(row=6,column=0)
 runButton.grid(row= 6, column= 1)
 graph.grid(row= 6, column= 2)
+
+
+
 Can=Canvas(fenetre,height=700,width=700,bg="white")
+
+Label(frame2,text= "Fish : ").grid(row=0,column=0)
+Label(frame2,text= "Shark : ").grid(row=1,column=0)
+
+nShark = StringVar(frame2)
+nFish = StringVar(frame2)
+Label(frame2,textvariable=nFish).grid(row=0,column=1)
+Label(frame2,textvariable=nShark).grid(row=1,column=1)
+
+
 
 
 frame1.pack()
 Can.pack()
+frame2.pack()
 fenetre.resizable(True, True)
 fenetre.mainloop()
