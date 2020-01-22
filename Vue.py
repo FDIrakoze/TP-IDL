@@ -80,7 +80,7 @@ def showGraph():
     plt.ylabel('collisions')
     
     plt.subplot(212)
-    plt.plot(sma.data["fish"], color="blue")
+    plt.plot(sma.data["fish"], color="green")
     plt.plot(sma.data["shark"], color="red")
     plt.xlabel('tick')
     plt.ylabel('nb couleurs')

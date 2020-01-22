@@ -35,9 +35,7 @@ class Shark(Agent):
             
             shark = None
             
-            
-
-            if(self.starveTime > 0 and self.breedTime >0 and len(fish)>0) :
+            if((self.starveTime > 0 and self.breedTime > 0 and len(fish)>0) or (self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)==0 and len(fish)>0 ) ) :
                 self.starveTime = self.initialstarveTime
                 x,y = fish[random.randint(0,len(fish)-1)]
                 FishToEat = self.environnement.instance.espace[x][y]
@@ -48,7 +46,7 @@ class Shark(Agent):
                 self.posX = x
                 self.posY = y 
             
-            if(self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)>0): 
+            elif(self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)>0): 
                 x,y = deplacement[random.randint(0,len(deplacement)-1)]
                 shark =  Shark(self.posX, self.posY, self.environnement,self.initialBreedTime,self.initialstarveTime )
                 self.environnement.instance.espace[self.posX][self.posY] = shark
