@@ -34,7 +34,7 @@ class SMA:
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
             #if(self.environnement.instance.espace[i][j] == None) : 
-            fish= Fish(i,j, self.environnement, fishBreedTime)
+            fish= Fish(i,j, self.environnement, fishBreedTime,0)
             self.agents.append(fish)
             self.environnement.instance.espace[i][j] = fish        
             nbfish-=1
@@ -45,7 +45,7 @@ class SMA:
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
             #if(self.environnement.instance.espace[i][j] == None) : 
-            shark= Shark(i,j, self.environnement, sharkBreedTime, sharkStarveTime)
+            shark= Shark(i,j, self.environnement, sharkBreedTime, sharkStarveTime,0)
             self.agents.append(shark)
             self.environnement.instance.espace[i][j] = shark        
             nbShark-=1

@@ -2,7 +2,7 @@ import random
 from Agent import Agent
 from Fish import Fish
 class Shark(Agent):
-    def __init__(self, posX, posY, env, breedTime, starveTime):
+    def __init__(self, posX, posY, env, breedTime, starveTime, maturite):
         pas = [-1,1]
         self.posX = posX
         self.posY = posY
@@ -14,7 +14,7 @@ class Shark(Agent):
         self.initialBreedTime = breedTime
         self.starveTime = starveTime
         self.initialstarveTime = starveTime
-        
+        self.maturite = maturite
         self.alive = True
 
     def canEat(self,voisins):
@@ -28,6 +28,11 @@ class Shark(Agent):
     def decide(self, taille) : 
         newShark = 0
         deathShark=0
+        if(self.maturite > 0) : 
+            self.color = "#ff6781"
+            self.maturite -= 1
+        else :
+            self.color = "red"
         if(self.starveTime == 0):
             self.alive = False
             deathShark=1
@@ -51,7 +56,7 @@ class Shark(Agent):
             
             elif(self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)>0): 
                 x,y = deplacement[random.randint(0,len(deplacement)-1)]
-                shark =  Shark(self.posX, self.posY, self.environnement,self.initialBreedTime,self.initialstarveTime )
+                shark =  Shark(self.posX, self.posY, self.environnement,self.initialBreedTime,self.initialstarveTime,3)
                 self.environnement.instance.espace[self.posX][self.posY] = shark
                 self.environnement.instance.espace[x][y] = self
                 self.breedTime = self.initialBreedTime
