@@ -16,6 +16,7 @@ def init():
     global time_delay
     global infinite
     global tab
+    global taille_canvas
     try:
         infinite = False
         fish = int(nbFish.get())
@@ -32,6 +33,8 @@ def init():
             infinite = True
             nbTours=1
         sma= SMA(nbCase, isTorique, fish, fbreedTime, shark,sbreedTime,sstarveTime)
+        taille_canvas =(700 + 700%nbCase)
+        Can.config(width=taille_canvas, height=taille_canvas)
         update_grille()
     except ValueError as e:
         print(e)
@@ -40,9 +43,10 @@ def init():
     
 def update_grille():
     global sma
+    global taille_canvas
     Can.delete(ALL)
-    x0,y0=300//nbCase,300//nbCase
-    Case=600//nbCase
+    x0,y0=0//nbCase,0//nbCase
+    Case=taille_canvas//nbCase
     if tab:
         for i in range(nbCase+1):
             Can.create_line(x0+Case*i, y0,x0+Case*i,y0 + nbCase*Case)
@@ -52,7 +56,7 @@ def update_grille():
         for c in range(nbCase):
             y = y0 + Case * c + Case // 2   
             if sma.environnement.instance.espace[r][c]!=None:
-                Affich[(r, c)]= Can.create_oval(x-(250//nbCase),y-(250//nbCase),x+(250//nbCase),y+(250//nbCase),fill=sma.environnement.instance.espace[r][c].color)
+                Affich[(r, c)]= Can.create_oval(x-((taille_canvas//2)//nbCase),y-((taille_canvas//2)//nbCase),x+((taille_canvas//2)//nbCase),y+((taille_canvas//2)//nbCase),fill=sma.environnement.instance.espace[r][c].color)
             else:
                 Affich[(r, c)] = Can.create_text(x, y, text='')  
 
