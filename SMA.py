@@ -38,7 +38,11 @@ class SMA:
             self.agents.append(hunter)
             self.environnement.instance.espace[i][j] = hunter        
             nbHunter-=1
-        
+        x,y = list_ij.pop(random.randint(0,len(list_ij)-1))
+        avatar = Avatar(x, y, self.environnement)
+        self.agents.append(avatar)
+        self.environnement.instance.espace[x][y] = avatar
+
     def init_tab(self,taille):
         tab=[[None for j in range(taille)] for i in range(taille)]
         return tab
