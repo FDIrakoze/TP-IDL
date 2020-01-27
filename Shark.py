@@ -3,19 +3,14 @@ from Agent import Agent
 from Fish import Fish
 class Shark(Agent):
     def __init__(self, posX, posY, env, breedTime, starveTime, maturite):
-        pas = [-1,1]
-        self.posX = posX
-        self.posY = posY
-        self.pasX = pas[random.randint(0,1)]
-        self.pasY = pas[random.randint(0,1)]
         self.color = "red"
-        self.environnement = env
         self.breedTime = breedTime
         self.initialBreedTime = breedTime
         self.starveTime = starveTime
         self.initialstarveTime = starveTime
         self.maturite = maturite
         self.alive = True
+        super(Shark, self).__init__(posX, posY, env)
 
     def canEat(self,voisins):
         fish = []

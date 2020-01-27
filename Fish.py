@@ -1,18 +1,14 @@
 import random 
 from Agent import Agent
 class Fish(Agent):
-    def __init__(self, posX, posY, env, breedTime, maturite):
-        pas = [-1,1]
-        self.posX = posX
-        self.posY = posY
-        self.pasX = pas[random.randint(0,1)]
-        self.pasY = pas[random.randint(0,1)]
+    def __init__(self,  posX, posY, env, breedTime, maturite):
+        
         self.color = "green"
-        self.environnement = env
         self.breedTime = breedTime
         self.initialBreedTime = breedTime
         self.alive = True
         self.maturite = maturite
+        super(Fish, self).__init__(posX, posY, env)
 
     def decide(self, taille) : 
         newFish = 0

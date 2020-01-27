@@ -8,7 +8,6 @@ class Agent:
         self.posY = posY
         self.pasX = pas[random.randint(0,1)]
         self.pasY = pas[random.randint(0,1)]
-        self.color = "black"
         self.environnement = env
     
     def voisin(self, taille): 

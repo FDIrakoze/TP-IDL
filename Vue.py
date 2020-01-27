@@ -156,7 +156,7 @@ graph.grid(row= 6, column= 2)
 
 
 
-Can=Canvas(fenetre,height=700,width=700,bg="white")
+Can=Canvas(fenetre,height=700,width=700,bg="cyan")
 
 Label(frame2,text= "Fish : ").grid(row=0,column=0)
 Label(frame2,text= "Shark : ").grid(row=1,column=0)
