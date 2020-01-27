@@ -3,7 +3,10 @@ from Agent import Agent
 from Fish import Fish
 class Shark(Agent):
     def __init__(self, posX, posY, env, breedTime, starveTime, maturite):
-        self.color = "red"
+        if maturite >0: 
+            self.color = "#ff6781"
+        else : 
+            self.color = "red"
         self.breedTime = breedTime
         self.initialBreedTime = breedTime
         self.starveTime = starveTime
@@ -24,7 +27,6 @@ class Shark(Agent):
         newShark = 0
         deathShark=0
         if(self.maturite > 0) : 
-            self.color = "#ff6781"
             self.maturite -= 1
         else :
             self.color = "red"
@@ -55,6 +57,8 @@ class Shark(Agent):
                 self.environnement.instance.espace[self.posX][self.posY] = shark
                 self.environnement.instance.espace[x][y] = self
                 self.breedTime = self.initialBreedTime
+                self.posX = x
+                self.posY = y 
                 self.starveTime -= 1
                 newShark = 1
 
