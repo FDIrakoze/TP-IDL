@@ -1,54 +1,54 @@
 from Environnement import Environnement
 from Agent import Agent
-from Fish import Fish
-from Shark import Shark
+from Avatar import Avatar
+from Hunter import Hunter
 import random
 class SMA:
     
    
-    def __init__(self, taille, torique, nbfish, fishBreedTime, nbShark, sharkBreedTime, sharkStarveTime):
+    def __init__(self, taille, torique, nbavatar, avatarBreedTime, nbHunter, hunterBreedTime, hunterStarveTime):
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
-        self.fish = []
-        self.shark = []
+        self.avatar = []
+        self.hunter = []
         self.agents = []
-        self.init_agent(nbfish,fishBreedTime, nbShark,sharkBreedTime, sharkStarveTime, taille)
+        self.init_agent(nbavatar,avatarBreedTime, nbHunter,hunterBreedTime, hunterStarveTime, taille)
         
 
-        self.data = {"fish":[0], 'shark':[0], "newshark":[0],"newfish":[0], "deathShark":[0], "deathFish":[0]}
+        self.data = {"avatar":[0], 'hunter':[0], "newhunter":[0],"newavatar":[0], "deathHunter":[0], "deathAvatar":[0]}
 
         
         
 
-    def init_agent(self,nbfish,fishBreedTime, nbShark,sharkBreedTime, sharkStarveTime, taille):
+    def init_agent(self,nbavatar,avatarBreedTime, nbHunter,hunterBreedTime, hunterStarveTime, taille):
         list_ij = []
         for i in range(taille) : 
             for j in range(taille) :
                 list_ij.append((i,j))
 
-        while nbfish > 0 :
+        while nbavatar > 0 :
             if(len(list_ij) == 1 and len(list_ij)==1): 
                 i,j = list_ij.pop(0)
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
             #if(self.environnement.instance.espace[i][j] == None) : 
-            fish= Fish(i,j, self.environnement, fishBreedTime,0)
-            self.agents.append(fish)
-            self.environnement.instance.espace[i][j] = fish        
-            nbfish-=1
-        while nbShark > 0 :
+            avatar= Avatar(i,j, self.environnement, avatarBreedTime,0)
+            self.agents.append(avatar)
+            self.environnement.instance.espace[i][j] = avatar        
+            nbavatar-=1
+        while nbHunter > 0 :
             if(len(list_ij) == 1 and len(list_ij)==1): 
                 i,j = list_ij.pop(0)
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
             #if(self.environnement.instance.espace[i][j] == None) : 
-            shark= Shark(i,j, self.environnement, sharkBreedTime, sharkStarveTime,0)
-            self.agents.append(shark)
-            self.environnement.instance.espace[i][j] = shark        
-            nbShark-=1
+            hunter= Hunter(i,j, self.environnement, hunterBreedTime, hunterStarveTime,0)
+            self.agents.append(hunter)
+            self.environnement.instance.espace[i][j] = hunter        
+            nbHunter-=1
 
     def init_tab(self,taille):
         tab=[[None for j in range(taille)] for i in range(taille)]
@@ -56,43 +56,43 @@ class SMA:
 
     def updateAgents(self) : 
         self.agents=[]
-        fish = 0
-        shark=0
+        avatar = 0
+        hunter=0
         for i in range(self.taille) : 
             for j in range(self.taille):
                 
                 agent = self.environnement.instance.espace[i][j]
-                if(agent !=None and agent.alive and isinstance(agent,Fish)):
-                    fish+=1
-                elif(agent !=None and agent.alive and isinstance(agent,Shark)):
-                    shark+=1
+                if(agent !=None and agent.alive and isinstance(agent,Avatar)):
+                    avatar+=1
+                elif(agent !=None and agent.alive and isinstance(agent,Hunter)):
+                    hunter+=1
                 if(agent != None and not agent.alive) : 
                     self.environnement.instance.espace[i][j] = None 
                     continue
                 if(agent != None):
                     self.agents.append(agent)
-        self.data['fish'].append(fish)
-        self.data['shark'].append(shark)
+        self.data['avatar'].append(avatar)
+        self.data['hunter'].append(hunter)
 
     def runOnce(self):
-        newFish = 0
-        newShark = 0
-        deathShark =0
-        deathFish=0
+        newAvatar = 0
+        newHunter = 0
+        deathHunter =0
+        deathAvatar=0
         self.updateAgents()
         for a in self.agents :
             prev_color = a.color
             new,death = a.decide(self.taille)
-            if(isinstance(a, Fish)): 
-                newFish += new
-                deathFish += death
-            if(isinstance(a, Shark)): 
-                newShark += new
-                deathShark += death
-        self.data['newshark'].append(newShark)
-        self.data['newfish'].append(newFish)
-        self.data['deathShark'].append(deathShark)
-        self.data['deathFish'].append(deathFish)
+            if(isinstance(a, Avatar)): 
+                newAvatar += new
+                deathAvatar += death
+            if(isinstance(a, Hunter)): 
+                newHunter += new
+                deathHunter += death
+        self.data['newhunter'].append(newHunter)
+        self.data['newavatar'].append(newAvatar)
+        self.data['deathHunter'].append(deathHunter)
+        self.data['deathAvatar'].append(deathAvatar)
            
 
 

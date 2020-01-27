@@ -19,20 +19,20 @@ def init():
     global taille_canvas
     try:
         infinite = False
-        fish = int(nbFish.get())
+        avatar = int(nbAvatar.get())
         nbCase = int(case.get())
         isTorique = int(vTorique.get())
         tab = int(vTab.get())
         time_delay = int(delay.get())
         nbTours = int(tours.get())
-        fbreedTime = int(fishBreedTime.get())
-        shark = int(nbShark.get())
-        sbreedTime = int(sharkBreedTime.get())
-        sstarveTime = int(sharkStarveTime.get())
+        fbreedTime = int(avatarBreedTime.get())
+        hunter = int(nbHunter.get())
+        sbreedTime = int(hunterBreedTime.get())
+        sstarveTime = int(hunterStarveTime.get())
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, fish, fbreedTime, shark,sbreedTime,sstarveTime)
+        sma= SMA(nbCase, isTorique, avatar, fbreedTime, hunter,sbreedTime,sstarveTime)
         taille_canvas =(700 + 700%nbCase)
         Can.config(width=taille_canvas, height=taille_canvas)
         update_grille()
@@ -65,13 +65,13 @@ def runOnce():
     global nbTours
     global infinite
     global time_delay
-    global nShark
-    global nFish
+    global nHunter
+    global nAvatar
     sma.runOnce()
     update_grille()
-    nShark.set(str(sma.data["shark"][-1]))
+    nHunter.set(str(sma.data["hunter"][-1]))
 
-    nFish.set(str(sma.data["fish"][-1]))
+    nAvatar.set(str(sma.data["avatar"][-1]))
     if nbTours > 0:
         if not (infinite):
             nbTours-=1
@@ -85,19 +85,19 @@ def showGraph():
     
 
     fig, axs = plt.subplots(3 )
-    fig.suptitle('fish : green / shark : red')
-    axs[0].plot(sma.data["deathFish"], color="green")
-    axs[0].plot(sma.data["deathShark"], color="red")
+    fig.suptitle('avatar : green / hunter : red')
+    axs[0].plot(sma.data["deathAvatar"], color="green")
+    axs[0].plot(sma.data["deathHunter"], color="red")
     
    
     axs[0].set_title("Death")
 
-    axs[1].plot(sma.data["newfish"], color="green")
-    axs[1].plot(sma.data["newshark"], color="red")
+    axs[1].plot(sma.data["newavatar"], color="green")
+    axs[1].plot(sma.data["newhunter"], color="red")
     axs[1].set_title('New')
 
-    axs[2].plot(sma.data["fish"], color="green")
-    axs[2].plot(sma.data["shark"], color="red")
+    axs[2].plot(sma.data["avatar"], color="green")
+    axs[2].plot(sma.data["hunter"], color="red")
     axs[2].set_title('Population')
     plt.xlabel('tick')
     plt.show()
@@ -121,31 +121,31 @@ Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=5,column=0)
 valeur=Button(frame1,text="valider",command=init)
 runButton=Button(frame1,text="Run",command=run)
 graph=Button(frame1,text="Show Graph",command=showGraph)
-Label(frame1,text= "Veuillez entrer le nombre de fish").grid(row=0,column=0)
-Label(frame1,text= "Veuillez entrer le breedTime des fish").grid(row=0,column=2)
+Label(frame1,text= "Veuillez entrer le nombre de avatar").grid(row=0,column=0)
+Label(frame1,text= "Veuillez entrer le breedTime des avatar").grid(row=0,column=2)
 
-Label(frame1,text= "Veuillez entrer le nombre de shark").grid(row=1,column=0)
-Label(frame1,text= "Veuillez entrer le breedTime des shark").grid(row=1,column=2)
-Label(frame1,text= "Veuillez entrer le starve time des shark").grid(row=1,column=4)
+Label(frame1,text= "Veuillez entrer le nombre de hunter").grid(row=1,column=0)
+Label(frame1,text= "Veuillez entrer le breedTime des hunter").grid(row=1,column=2)
+Label(frame1,text= "Veuillez entrer le starve time des hunter").grid(row=1,column=4)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)
 Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=3,column=0)
 Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=4,column=0)
-nbFish=Entry(frame1) 
-nbShark=Entry(frame1)
-sharkBreedTime=Entry(frame1)
-sharkStarveTime=Entry(frame1)
-fishBreedTime=Entry(frame1)
+nbAvatar=Entry(frame1) 
+nbHunter=Entry(frame1)
+hunterBreedTime=Entry(frame1)
+hunterStarveTime=Entry(frame1)
+avatarBreedTime=Entry(frame1)
 case=Entry(frame1)
 torique=Entry(frame1)
 delay=Entry(frame1)
 tours=Entry(frame1)
-nbFish.grid(row=0,column=1)
-fishBreedTime.grid(row=0, column=3)
+nbAvatar.grid(row=0,column=1)
+avatarBreedTime.grid(row=0, column=3)
 
-nbShark.grid(row=1,column=1)
-sharkBreedTime.grid(row=1,column=3)
-sharkStarveTime.grid(row=1,column=5)
+nbHunter.grid(row=1,column=1)
+hunterBreedTime.grid(row=1,column=3)
+hunterStarveTime.grid(row=1,column=5)
 
 case.grid(row=2, column=1)
 tours.grid(row=3, column=1)
@@ -158,13 +158,13 @@ graph.grid(row= 6, column= 2)
 
 Can=Canvas(fenetre,height=700,width=700,bg="cyan")
 
-Label(frame2,text= "Fish : ").grid(row=0,column=0)
-Label(frame2,text= "Shark : ").grid(row=1,column=0)
+Label(frame2,text= "Avatar : ").grid(row=0,column=0)
+Label(frame2,text= "Hunter : ").grid(row=1,column=0)
 
-nShark = StringVar(frame2)
-nFish = StringVar(frame2)
-Label(frame2,textvariable=nFish).grid(row=0,column=1)
-Label(frame2,textvariable=nShark).grid(row=1,column=1)
+nHunter = StringVar(frame2)
+nAvatar = StringVar(frame2)
+Label(frame2,textvariable=nAvatar).grid(row=0,column=1)
+Label(frame2,textvariable=nHunter).grid(row=1,column=1)
 
 
 
