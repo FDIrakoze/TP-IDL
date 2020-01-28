@@ -10,13 +10,11 @@ class SMA:
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
-        self.fish = []
-        self.shark = []
         self.agents = []
         self.init_agent(nbfish,fishBreedTime, nbShark,sharkBreedTime, sharkStarveTime, taille)
         
 
-        self.data = {"fish":[0], 'shark':[0], "newshark":[0],"newfish":[0], "deathShark":[0], "deathFish":[0]}
+        self.data = {"fish":[nbfish], 'shark':[nbShark], "newshark":[0],"newfish":[0], "deathShark":[0], "deathFish":[0]}
 
         
         
@@ -71,28 +69,34 @@ class SMA:
                     continue
                 if(agent != None):
                     self.agents.append(agent)
-        self.data['fish'].append(fish)
-        self.data['shark'].append(shark)
+        
 
     def runOnce(self):
         newFish = 0
         newShark = 0
         deathShark =0
         deathFish=0
+        nbFish = 0
+        nbShark =0
         self.updateAgents()
         for a in self.agents :
             prev_color = a.color
-            new,death = a.decide(self.taille)
+            new,death, killedFish = a.decide(self.taille)
             if(isinstance(a, Fish)): 
+                nbFish += 1
                 newFish += new
-                deathFish += death
             if(isinstance(a, Shark)): 
+                nbShark += 1
                 newShark += new
-                deathShark += death
+                deathShark += death 
+                deathFish += killedFish
         self.data['newshark'].append(newShark)
         self.data['newfish'].append(newFish)
         self.data['deathShark'].append(deathShark)
         self.data['deathFish'].append(deathFish)
+        self.data['fish'].append(nbFish - deathFish + newFish)
+        self.data['shark'].append(nbShark - deathShark + newShark)
+        a=0
            
 
 

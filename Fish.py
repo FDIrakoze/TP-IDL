@@ -15,6 +15,7 @@ class Fish(Agent):
     def decide(self, taille) : 
         newFish = 0
         deathFish=0
+        tmp = 0
         if(self.maturite > 0) : 
             self.maturite -= 1
         else :
@@ -41,4 +42,4 @@ class Fish(Agent):
             deathFish=1
         #self.environnement.instance.espace[self.posX][self.posY] = self
 
-        return (newFish,deathFish)
+        return (newFish,deathFish, tmp)

@@ -26,6 +26,7 @@ class Shark(Agent):
     def decide(self, taille) : 
         newShark = 0
         deathShark=0
+        killFish = 0
         if(self.maturite > 0) : 
             self.maturite -= 1
         else :
@@ -40,18 +41,7 @@ class Shark(Agent):
             
             shark = None
             
-            if((self.starveTime > 0 and self.breedTime > 0 and len(fish)>0) or (self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)==0 and len(fish)>0 ) ) :
-                self.starveTime = self.initialstarveTime
-                x,y = fish[random.randint(0,len(fish)-1)]
-                FishToEat = self.environnement.instance.espace[x][y]
-                self.breedTime -=1
-                FishToEat.alive=False
-                self.environnement.instance.espace[x][y] = self
-                self.environnement.instance.espace[self.posX][self.posY] = None
-                self.posX = x
-                self.posY = y 
-            
-            elif(self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)>0): 
+            if(self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)>0): 
                 x,y = deplacement[random.randint(0,len(deplacement)-1)]
                 shark =  Shark(self.posX, self.posY, self.environnement,self.initialBreedTime,self.initialstarveTime,3)
                 self.environnement.instance.espace[self.posX][self.posY] = shark
@@ -61,6 +51,19 @@ class Shark(Agent):
                 self.posY = y 
                 self.starveTime -= 1
                 newShark = 1
+            elif((self.starveTime > 0 and self.breedTime > 0 and len(fish)>0) or (self.breedTime <= 0 and self.starveTime > 1 and len(deplacement)==0 and len(fish)>0 ) ) :
+                self.starveTime = self.initialstarveTime
+                x,y = fish[random.randint(0,len(fish)-1)]
+                FishToEat = self.environnement.instance.espace[x][y]
+                self.breedTime -=1
+                FishToEat.alive=False
+                self.environnement.instance.espace[x][y] = self
+                self.environnement.instance.espace[self.posX][self.posY] = None
+                self.posX = x
+                self.posY = y 
+                killFish = 1
+            
+            
 
             elif(len(deplacement)>0):
                 x,y = deplacement[random.randint(0,len(deplacement)-1)]
@@ -74,4 +77,4 @@ class Shark(Agent):
         
         #self.environnement.instance.espace[self.posX][self.posY] = self
 
-        return (newShark,deathShark)
+        return (newShark,deathShark, killFish)
