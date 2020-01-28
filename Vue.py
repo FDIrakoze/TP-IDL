@@ -73,7 +73,25 @@ def runOnce():
 def run():
     runOnce()
     
-    
+def leftKey(event) : 
+    global sma 
+    sma.sendNextDirection("left")
+    #print("Left pressed")
+
+def rightKey(event) : 
+    global sma 
+    sma.sendNextDirection("right")
+    #print("Right pressed")
+
+def downKey(event) : 
+    global sma 
+    sma.sendNextDirection("down")
+    #print("Down pressed")
+
+def upKey(event) : 
+    global sma 
+    sma.sendNextDirection("up")
+    #print("Up pressed")
    
     
        
@@ -112,7 +130,10 @@ runButton.grid(row= 6, column= 1)
 
 Can=Canvas(fenetre,height=700,width=700,bg="cyan")
 
-
+fenetre.bind("<Right>", rightKey)
+fenetre.bind("<Left>", leftKey)
+fenetre.bind("<Up>", upKey)
+fenetre.bind("<Down>", downKey)
 
 
 
