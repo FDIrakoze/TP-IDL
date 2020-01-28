@@ -8,12 +8,13 @@ class Avatar(Agent):
         self.color = "green"
         self.movement = None
         self.nextDirection =[]
+        self.dijkstra_status=[]
         
         super(Avatar, self).__init__(posX, posY, env)
 
     def decide(self, taille) : 
         self.setNextDirection()
-
+        self.dijkstra(taille)
         if(self.movement != None): 
             
             nextX = self.posX
@@ -42,18 +43,44 @@ class Avatar(Agent):
     
 
     def dijkstra(self, taille) : 
-        """
-        is_visite = []
         visite = []
-       
-        for x in range(0, taille) : 
-                is_visite[x].append(False)
-                visite[x].append(0)
-        """
-        
-            
-        pass
+        inc = 1
+        visite = [[0 for i in range(taille)] for j in range(taille)]
+        visite[self.posX][self.posY]= None
+        for i in range(0, taille) :
+            for j in range(0, i) : 
+                # (x,y); (-x, y); (-x,-y); (x, -y)
+                # (y, x); (-y, x); (y, -x); (-y,-x)
+                x1 = self.posX - i
+                x2 = self.posX + i
+                y1 = self.posY - j
+                y2 = self.posY + j
+                
+                if((x1 >= 0 and x1 <  taille) and (y1 >= 0 and y1 <taille)): 
+                    visite[x1][y1] = inc
+                    visite[y1][x1] = inc
 
+                if((x2 >= 0 and x2 <  taille) and (y2 >= 0 and y2<taille)): 
+                    visite[x2][y2] = inc
+                    visite[y2][x2] = inc
+
+                if((x1 >= 0 and x1 <  taille) and (y2 >= 0 and y2 <taille)): 
+                    visite[x1][y2] = inc
+                    visite[y2][x1] = inc
+                
+                if((x2 >= 0 and x2 <  taille) and (y1 >= 0 and y1 <taille)): 
+                    visite[x2][y1] = inc
+                    visite[y1][x2] = inc
+
+            inc += 1
+        
+        self.dijkstra_status = visite
+        self.printDijkstra()
+        
+    
+    def printDijkstra(self) : 
+        for i in self.dijkstra_status : 
+           print(i) 
     def setNextDirection(self) : 
         if(len(self.nextDirection) > 0) : 
             self.movement = self.nextDirection.pop(0)
