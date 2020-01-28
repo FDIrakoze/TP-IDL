@@ -2,18 +2,19 @@ from Environnement import Environnement
 from Agent import Agent
 from Avatar import Avatar
 from Hunter import Hunter
+from Brick import Brick
 import random
 class SMA:
     
    
-    def __init__(self, taille, torique,nbHunter):
+    def __init__(self, taille, torique,nbHunter, nbObstacles):
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
         self.avatar = None
         self.hunter = []
         self.agents = []
-        self.init_agent(nbHunter, taille)
+        self.init_agent(nbHunter,nbObstacles,  taille)
         
 
         self.data = {"avatar":[0], 'hunter':[0], "newhunter":[0],"newavatar":[0], "deathHunter":[0], "deathAvatar":[0]}
@@ -21,7 +22,7 @@ class SMA:
         
         
 
-    def init_agent(self, nbHunter, taille):
+    def init_agent(self, nbHunter,nbObstacles, taille):
         list_ij = []
         for i in range(taille) : 
             for j in range(taille) :
@@ -38,6 +39,19 @@ class SMA:
             self.agents.append(hunter)
             self.environnement.instance.espace[i][j] = hunter        
             nbHunter-=1
+
+        while nbObstacles > 0 :
+            if(len(list_ij) == 1 and len(list_ij)==1): 
+                i,j = list_ij.pop(0)
+            else : 
+                i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
+               
+            #if(self.environnement.instance.espace[i][j] == None) : 
+            brick= Brick(i,j, self.environnement)
+            self.agents.append(hunter)
+            self.environnement.instance.espace[i][j] = brick        
+            nbObstacles-=1
+
         x,y = list_ij.pop(random.randint(0,len(list_ij)-1))
         self.avatar = Avatar(x, y, self.environnement)
         self.agents.append(self.avatar)

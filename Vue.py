@@ -24,10 +24,11 @@ def init():
         time_delay = int(delay.get())
         nbTours = int(tours.get())
         hunter = int(nbHunter.get())
+        obstacles = int(nbObstacles.get())
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, hunter)
+        sma= SMA(nbCase, isTorique, hunter,obstacles)
         taille_canvas =(700 + 700%nbCase)
         Can.config(width=taille_canvas, height=taille_canvas)
         update_grille()
@@ -107,18 +108,22 @@ Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=5,column=0)
 valeur=Button(frame1,text="valider",command=init)
 runButton=Button(frame1,text="Run",command=run)
 Label(frame1,text= "Veuillez entrer le nombre de hunter").grid(row=0,column=0)
+Label(frame1,text= "Veuillez entrer le nombre d'obsatcles").grid(row=1,column=0)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)
 Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=3,column=0)
 Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=4,column=0)
  
 nbHunter=Entry(frame1)
+nbObstacles = Entry(frame1)
+
 case=Entry(frame1)
 torique=Entry(frame1)
 delay=Entry(frame1)
 tours=Entry(frame1)
 
 nbHunter.grid(row=0,column=1)
+nbObstacles.grid(row= 1, column=1)
 
 case.grid(row=2, column=1)
 tours.grid(row=3, column=1)
