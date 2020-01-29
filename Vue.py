@@ -3,11 +3,13 @@ from tkinter import messagebox, IntVar, Checkbutton
 from Brick import Brick
 from time import sleep
 from SMA import SMA
+import random 
 sma = None
 Affich = dict()
 nbTours = 0
 nbCase = 0
 tab = 1
+running = False
 def init():
     global sma
     global Affich
@@ -17,8 +19,10 @@ def init():
     global infinite
     global tab
     global taille_canvas
+    global stop_state 
     try:
         infinite = False
+        stop_state = False
         nbCase = int(case.get())
         isTorique = int(vTorique.get())
         tab = int(vTab.get())
@@ -30,9 +34,12 @@ def init():
             infinite = True
             nbTours=1
         sma= SMA(nbCase, isTorique, hunter,obstacles)
+        dir=["right", "left", "up", "down"]
+        sma.sendNextDirection(dir[random.randint(0, len(dir)-1)])
         taille_canvas =(700 + 700%nbCase)
         Can.config(width=taille_canvas, height=taille_canvas)
         update_grille()
+
     except ValueError as e:
         print(e)
         messagebox.showinfo("Erreur","Les valeurs saisies contiennent des erreurs")
@@ -67,8 +74,11 @@ def runOnce():
     global time_delay
     global nHunter
     global nAvatar
-    sma.runOnce()
-    update_grille()
+    
+    
+    if not (stop_state) : 
+        sma.runOnce()
+        update_grille()
     if nbTours > 0:
         if not (infinite):
             nbTours-=1
@@ -76,7 +86,13 @@ def runOnce():
         
 
 def run():
-    runOnce()
+    global stop_state
+    global running
+    stop_state = False
+    
+    if not running : 
+        running = True
+        runOnce()
     
 def leftKey(event) : 
     global sma 
@@ -98,7 +114,9 @@ def upKey(event) :
     sma.sendNextDirection("up")
     #print("Up pressed")
    
-    
+def stop_process() : 
+    global stop_state
+    stop_state = True
        
 
 
@@ -110,6 +128,7 @@ vTorique= IntVar()
 Checkbutton (frame1, text="tableau", variable = vTab).grid(row=5,column=1)
 Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=5,column=0)
 valeur=Button(frame1,text="valider",command=init)
+stop_button=Button(frame1,text="Stop",command=stop_process)
 runButton=Button(frame1,text="Run",command=run)
 Label(frame1,text= "Veuillez entrer le nombre de hunter").grid(row=0,column=0)
 Label(frame1,text= "Veuillez entrer le nombre d'obsatcles").grid(row=1,column=0)
@@ -134,7 +153,7 @@ tours.grid(row=3, column=1)
 delay.grid(row=4,column=1)
 valeur.grid(row=6,column=0)
 runButton.grid(row= 6, column= 1)
-
+stop_button.grid(row=6, column=2)
 
 
 Can=Canvas(fenetre,height=700,width=700,bg="cyan")

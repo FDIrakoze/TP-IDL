@@ -48,7 +48,7 @@ class SMA:
                
             #if(self.environnement.instance.espace[i][j] == None) : 
             brick= Brick(i,j, self.environnement)
-            self.agents.append(hunter)
+            self.agents.append(brick)
             self.environnement.instance.espace[i][j] = brick        
             nbObstacles-=1
 
