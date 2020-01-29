@@ -34,7 +34,7 @@ class Avatar(Agent):
                 nextX = self.posX
             if(nextY < 0 or nextY >= taille) : 
                 nextY = self.posY
-            if(isinstance( self.environnement.instance.espace[nextX][nextY], Brick)) : 
+            if(isinstance( self.environnement.instance.espace[nextX][nextY], Brick) ) : 
                 nextX = self.posX
                 nextY = self.posY
             self.environnement.instance.espace[self.posX][self.posY]=None

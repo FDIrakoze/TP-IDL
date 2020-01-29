@@ -7,10 +7,11 @@ import random
 class SMA:
     
    
-
-
-
-    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter, time_delay):
+<<<<<<< HEAD
+    def __init__(self, taille, torique,nbHunter, nbObstacles, tick_speed, avatar_speed, hunter_speed):
+=======
+    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter):
+>>>>>>> 8d386450297f785f45e1b7570b2955f3670bf17b
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
@@ -19,10 +20,9 @@ class SMA:
         self.agents = []
         self.init_agent(nbHunter,nbObstacles,  taille)
         self.visite=None
-        self.tick_speed = time_delay
-        self.avatar_speed = v_avatar
-        self.hunter_speed = v_hunter
-        self.tour = 0
+        self.tick_speed = tick_speed
+        self.avatar_speed = avatar_speed
+        self.hunter_speed = hunter_speed
 
 
         
@@ -83,16 +83,16 @@ class SMA:
         self.visite = [[None for i in range(self.taille)] for j in range(self.taille)]
         self.visite[self.avatar.posX][self.avatar.posY] = 0
         self.dijkstra([(self.avatar.posX,self.avatar.posY)])
-        
         for a in self.agents :                
-            if(isinstance(a, Hunter) and ((self.tour*self.tick_speed) % self.hunter_speed) ==0): 
+            if(isinstance(a, Hunter) and self.tick_speed % self.hunter_speed ==0): 
                 isFinish = a.decide(self.taille, self.visite)
                 if isFinish : 
                     return True
-            elif(isinstance(a, Avatar) and ((self.tour*self.tick_speed) % self.avatar_speed) ==0) :
+            elif(isinstance(a, Avatar) and self.tick_speed % self.avatar_speed ==0) :
                  a.decide(self.taille)
                 
-        self.tour += 1
+            else :
+                a.decide(self.taille)
             
         
            

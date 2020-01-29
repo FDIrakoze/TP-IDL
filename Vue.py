@@ -36,7 +36,7 @@ def init():
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter)
+        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter, time_delay)
         dir=["right", "left", "up", "down"]
         sma.sendNextDirection(dir[random.randint(0, len(dir)-1)])
         taille_canvas =(700 + 700%nbCase)
