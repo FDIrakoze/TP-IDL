@@ -7,15 +7,18 @@ import random
 class SMA:
     
    
-    def __init__(self, taille, torique,nbHunter, nbObstacles):
+    def __init__(self, taille, torique,nbHunter, nbObstacles, tick_speed, avatar_speed, hunter_speed):
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
         self.avatar = None
-        self.hunter = []
+        
         self.agents = []
         self.init_agent(nbHunter,nbObstacles,  taille)
         self.visite=None
+        self.tick_speed = tick_speed
+        self.avatar_speed = avatar_speed
+        self.hunter_speed = hunter_speed
 
 
         
@@ -77,11 +80,14 @@ class SMA:
         self.visite[self.avatar.posX][self.avatar.posY] = 0
         self.dijkstra([(self.avatar.posX,self.avatar.posY)])
         for a in self.agents :                
-            if(isinstance(a, Hunter)): 
+            if(isinstance(a, Hunter) and self.tick_speed % self.hunter_speed ==0): 
                 isFinish = a.decide(self.taille, self.visite)
                 if isFinish : 
                     return True
-            else : 
+            elif(isinstance(a, Avatar) and self.tick_speed % self.avatar_speed ==0) :
+                 a.decide(self.taille)
+                
+            else :
                 a.decide(self.taille)
             
         
