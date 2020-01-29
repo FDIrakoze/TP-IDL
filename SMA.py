@@ -15,9 +15,8 @@ class SMA:
         self.hunter = []
         self.agents = []
         self.init_agent(nbHunter,nbObstacles,  taille)
-        
+        self.visite=None
 
-        self.data = {"avatar":[0], 'hunter':[0], "newhunter":[0],"newavatar":[0], "deathHunter":[0], "deathAvatar":[0]}
 
         
         
@@ -71,22 +70,21 @@ class SMA:
                 agent = self.environnement.instance.espace[i][j]
                 if(agent != None):
                     self.agents.append(agent)
-        self.data['avatar'].append(avatar)
-        self.data['hunter'].append(hunter)
 
     def runOnce(self):
-        newAvatar = 0
-        newHunter = 0
-        deathHunter =0
-        deathAvatar=0
         self.updateAgents()
-        for a in self.agents :
-            new,death = a.decide(self.taille)
+        self.visite = [[None for i in range(self.taille)] for j in range(self.taille)]
+        self.visite[self.avatar.posX][self.avatar.posY] = 0
+        self.dijkstra([(self.avatar.posX,self.avatar.posY)])
+        for a in self.agents :                
+            if(isinstance(a, Hunter)): 
+                isFinish = a.decide(self.taille, self.visite)
+                if isFinish : 
+                    return True
+            else : 
+                a.decide(self.taille)
             
-        self.data['newhunter'].append(0)
-        self.data['newavatar'].append(0)
-        self.data['deathHunter'].append(0)
-        self.data['deathAvatar'].append(0)
+        
            
 
 
@@ -95,3 +93,24 @@ class SMA:
     def sendNextDirection(self, direction): 
         if(self.avatar != None) : 
             self.avatar.saveDirection(direction)
+
+    def dijkstra(self,points) :
+        
+        next_points = []
+        if(len(points)>0): 
+            for p in points : 
+                x,y = p
+                position = [(x-1, y+1),(x, y+1),(x+1, y+1),(x-1, y),(x+1, y),(x-1, y-1),(x, y-1),(x+1, y-1)]
+                for i in position :
+                    x1,y1 = i
+                    if((x1>=0 and x1<self.taille) and (y1>=0 and y1<self.taille)):
+                        if(self.visite[x1][y1]==None):
+                            self.visite[x1][y1] = self.visite[x][y] + 1
+                            next_points.append(i)
+        if(len(next_points) >0) : 
+            self.dijkstra(next_points)
+    
+
+    def printDijkstra(self): 
+        for i in self.visite : 
+            print(i)

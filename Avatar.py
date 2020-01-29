@@ -15,7 +15,7 @@ class Avatar(Agent):
 
     def decide(self, taille) : 
         self.setNextDirection()
-        self.visite = [[None for i in range(taille)] for j in range(taille)]
+        
         
         if(self.movement != None): 
             
@@ -40,33 +40,13 @@ class Avatar(Agent):
             self.environnement.instance.espace[self.posX][self.posY]=None
             self.posX = nextX
             self.posY = nextY
-            self.visite[self.posX][self.posY] = 0
+           
             self.environnement.instance.espace[self.posX][self.posY]=self
-            self.dijkstra(taille,[(self.posX, self.posY)])
             
-        return (0,0)
+            
     
 
-    def dijkstra(self, taille, points) :
-        
-        next_points = []
-        if(len(points)>0): 
-            for p in points : 
-                x,y = p
-                position = [(x-1, y+1),(x, y+1),(x+1, y+1),(x-1, y),(x+1, y),(x-1, y-1),(x, y-1),(x+1, y-1)]
-                for i in position :
-                    x1,y1 = i
-                    if((x1>=0 and x1<taille) and (y1>=0 and y1<taille)):
-                        if(self.visite[x1][y1]==None):
-                            self.visite[x1][y1] = self.visite[x][y] + 1
-                            next_points.append(i)
-        if(len(next_points) >0) : 
-            self.dijkstra(taille, next_points)
     
-
-    def printDijkstra(self): 
-        for i in self.visite : 
-            print(i)
 
 
     def setNextDirection(self) : 

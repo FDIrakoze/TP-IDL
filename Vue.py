@@ -20,6 +20,7 @@ def init():
     global tab
     global taille_canvas
     global stop_state 
+
     try:
         infinite = False
         stop_state = False
@@ -72,18 +73,24 @@ def runOnce():
     global nbTours
     global infinite
     global time_delay
-    global nHunter
-    global nAvatar
-    
+    global running 
+
+    isFinish = False
     
     if not (stop_state) : 
-        sma.runOnce()
+        isFinish = sma.runOnce()
         update_grille()
-    if nbTours > 0:
+    
+    if nbTours > 0 and not isFinish:
         if not (infinite):
             nbTours-=1
         fenetre.after(time_delay,runOnce)
-        
+    if(isFinish): 
+        answer  = messagebox.showinfo(title="Looser Window", message="You Damn Looser")
+        if(answer == "ok"):
+            init()
+            running = False
+            return
 
 def run():
     global stop_state
