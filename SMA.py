@@ -7,7 +7,11 @@ import random
 class SMA:
     
    
-    def __init__(self, taille, torique,nbHunter, nbObstacles, tick_speed, avatar_speed, hunter_speed):
+
+
+
+    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter):
+>>>>>>> 8d386450297f785f45e1b7570b2955f3670bf17b
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille

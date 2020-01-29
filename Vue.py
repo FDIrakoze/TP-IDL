@@ -31,10 +31,12 @@ def init():
         nbTours = int(tours.get())
         hunter = int(nbHunter.get())
         obstacles = int(nbObstacles.get())
+        v_avatar = int(V_avatar.get())
+        v_hunter = int(V_hunter.get())
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, hunter,obstacles)
+        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter)
         dir=["right", "left", "up", "down"]
         sma.sendNextDirection(dir[random.randint(0, len(dir)-1)])
         taille_canvas =(700 + 700%nbCase)
@@ -138,7 +140,9 @@ valeur=Button(frame1,text="valider",command=init)
 stop_button=Button(frame1,text="Stop",command=stop_process)
 runButton=Button(frame1,text="Run",command=run)
 Label(frame1,text= "Veuillez entrer le nombre de hunter").grid(row=0,column=0)
+Label (frame1, text="Veuillez entrer la vitesse du hunter").grid(row=0, column=2)
 Label(frame1,text= "Veuillez entrer le nombre d'obsatcles").grid(row=1,column=0)
+Label (frame1, text="Veuillez entrer la vitesse de l'avatar").grid(row=1, column=2)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)
 Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=3,column=0)
@@ -146,14 +150,19 @@ Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=
  
 nbHunter=Entry(frame1)
 nbObstacles = Entry(frame1)
+V_hunter = Entry(frame1)
+V_avatar = Entry(frame1)
 
 case=Entry(frame1)
 torique=Entry(frame1)
 delay=Entry(frame1)
 tours=Entry(frame1)
 
+
 nbHunter.grid(row=0,column=1)
 nbObstacles.grid(row= 1, column=1)
+V_hunter.grid(row= 0, column=3)
+V_avatar.grid(row= 1, column=3)
 
 case.grid(row=2, column=1)
 tours.grid(row=3, column=1)
