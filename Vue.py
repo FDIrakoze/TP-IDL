@@ -138,7 +138,9 @@ def upKey(event) :
 
 def eventKey(event) : 
     global sma 
-    key = event.keysym
+    global stop_state
+    global time_delay 
+    key = event.keysym.lower()
     if(key == "a") : 
         sma.sendSpeedHunter(0)
         # acceleration Hunter
@@ -151,11 +153,17 @@ def eventKey(event) :
     elif(key =='p') :
         sma.sendSpeedAvatar(1)
         # decceleration Avatar
-
+    elif(key =="space") : 
+        stop_state = not stop_state
+    elif(key == 'w') : 
+        if(time_delay > 0) : 
+            time_delay = time_delay // 2
+    elif(key == 'x'): 
+        time_delay = time_delay * 2
 def stop_process() : 
     global stop_state
     stop_state = True
-       
+
 
 fenetre = Tk()
 fenetre.title("TP1")
@@ -163,7 +171,7 @@ frame1=Frame()
 vTab= IntVar ()
 vTorique= IntVar()
 Checkbutton (frame1, text="tableau", variable = vTab).grid(row=6,column=1)
-Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=6,column=0)
+#Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=6,column=0)
 valeur=Button(frame1,text="valider",command=init)
 stop_button=Button(frame1,text="Stop",command=stop_process)
 runButton=Button(frame1,text="Run",command=run)
