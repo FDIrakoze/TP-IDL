@@ -33,13 +33,13 @@ def init():
         obstacles = int(nbObstacles.get())
         v_avatar = int(V_avatar.get())
         v_hunter = int(V_hunter.get())
-
+        a_invincible = int(avatar_invincible.get())
         defenderNb = int(defender_number.get())
         defenderTTL = int(defender_time_to_live.get())
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter, time_delay , defenderNb, defenderTTL)
+        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter, time_delay , defenderNb, defenderTTL,a_invincible)
         dir=["right", "left", "up", "down"]
         sma.sendNextDirection(dir[random.randint(0, len(dir)-1)])
         taille_canvas =(700 + 700%nbCase)
@@ -80,7 +80,7 @@ def runOnce():
     global infinite
     global time_delay
     global running 
-
+    global stop_state
     isFinish = False
     isWin=False
     if not (stop_state) : 
@@ -99,6 +99,7 @@ def runOnce():
             running = False
             return
     if(isWin): 
+        stop_state = True
         answer  = messagebox.showinfo(title="Winner", message="You Win !!!")
         
         if(answer == "ok"):
@@ -181,7 +182,7 @@ Label(frame1,text= "Veuillez entrer le nombre d'obsatcles").grid(row=1,column=0)
 Label (frame1, text="Veuillez entrer la vitesse de l'avatar").grid(row=1, column=2)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)
-
+Label (frame1, text="Veuillez entrer la duree d'invincibilite de l'avatar").grid(row=2, column=2)
 Label(frame1,text= "Veuillez entrer le nombre de defenders ").grid(row=3,column=0)
 Label(frame1,text= "Veuillez entrer la durée de vie des defenders").grid(row=3,column=2)
 Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=4,column=0)
@@ -191,7 +192,7 @@ nbHunter=Entry(frame1)
 nbObstacles = Entry(frame1)
 V_hunter = Entry(frame1)
 V_avatar = Entry(frame1)
-
+avatar_invincible = Entry(frame1)
 case=Entry(frame1)
 torique=Entry(frame1)
 delay=Entry(frame1)
@@ -206,6 +207,7 @@ V_hunter.grid(row= 0, column=3)
 V_avatar.grid(row= 1, column=3)
 
 case.grid(row=2, column=1)
+avatar_invincible.grid(row=2, column=3)
 defender_number.grid(row=3, column=1)
 defender_time_to_live.grid(row=3, column=3)
 tours.grid(row=4, column=1)
@@ -213,6 +215,7 @@ delay.grid(row=5,column=1)
 valeur.grid(row=7,column=0)
 runButton.grid(row= 7, column= 1)
 stop_button.grid(row=7, column=2)
+
 
 
 Can=Canvas(fenetre,height=700,width=700,bg="white")

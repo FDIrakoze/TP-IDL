@@ -12,7 +12,7 @@ class SMA:
 
 
 
-    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter, time_delay, nbDefender, defenderTTL):
+    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter, time_delay, nbDefender, defenderTTL,a_invincible):
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
@@ -24,18 +24,19 @@ class SMA:
         self.defenderTTL = defenderTTL
         self.isWin = False 
         self.winnerSpawn = False
-        self.init_agent(nbHunter,nbObstacles, nbDefender,  taille)
+        self.init_agent(nbHunter,nbObstacles, nbDefender,  taille, a_invincible)
         self.visite=None
         self.tick_speed = time_delay
         self.avatar_speed = v_avatar
         self.hunter_speed = v_hunter
         self.tour = 0
+        self.avatar_incincible = False
         
 
         
         
 
-    def init_agent(self, nbHunter,nbObstacles, nbDefender, taille):
+    def init_agent(self, nbHunter,nbObstacles, nbDefender, taille,a_invincible):
         list_ij = []
         for i in range(taille) : 
             for j in range(taille) :
@@ -66,7 +67,7 @@ class SMA:
             nbObstacles-=1
 
         x,y = list_ij.pop(random.randint(0,len(list_ij)-1))
-        self.avatar = Avatar(x, y, self.environnement)
+        self.avatar = Avatar(x, y, self.environnement,a_invincible)
         self.agents.append(self.avatar)
         self.environnement.instance.espace[x][y] = self.avatar
 
@@ -125,14 +126,15 @@ class SMA:
         self.visite[self.avatar.posX][self.avatar.posY] = 0
         self.dijkstra([(self.avatar.posX,self.avatar.posY)])
         
+        
         for a in self.agents :             
             if(isinstance(a, Hunter) and ((self.tour) % self.hunter_speed) ==0): 
-                isFinish = a.decide(self.taille, self.visite)
+                isFinish = a.decide(self.taille, self.visite, self.avatar_incincible)
                 if isFinish : 
                     return True
             elif(isinstance(a, Avatar) and ((self.tour) % self.avatar_speed) ==0) :
                  self.isWin = a.decide(self.taille)
-                
+                 self.avatar_incincible = a.invincible > 0
             elif(isinstance(a, Defender)):
                 a.decide()
                 

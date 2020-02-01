@@ -5,7 +5,7 @@ from Brick import Brick
 from Defender import Defender
 from Winner import Winner 
 class Avatar(Agent):
-    def __init__(self,  posX, posY, env):
+    def __init__(self,  posX, posY, env, invincible):
         
         self.color = "green"
         self.movement = None
@@ -13,6 +13,8 @@ class Avatar(Agent):
         self.dijkstra_status=[]
         self.visite=None
         self.defender_eat= 0
+        self.invincible = 0
+        self.initial_invincible = invincible
         
         super(Avatar, self).__init__(posX, posY, env)
 
@@ -37,20 +39,23 @@ class Avatar(Agent):
                 nextX = self.posX
             if(nextY < 0 or nextY >= taille) : 
                 nextY = self.posY
-            if(isinstance( self.environnement.instance.espace[nextX][nextY], Brick) ) : 
-                nextX = self.posX
-                nextY = self.posY
-            if(isinstance(self.environnement.instance.espace[nextX][nextY], Defender)):
-                defender = self.environnement.instance.espace[nextX][nextY]
+            item  = self.environnement.instance.espace[nextX][nextY]
+           
+            if(isinstance(item, Defender)):
+                defender = item
                 defender.isEat = True 
                 self.defender_eat += 1
-            if(isinstance(self.environnement.instance.espace[nextX][nextY], Winner)):
-                
+                self.invincible = self.initial_invincible
+            elif(isinstance(self.environnement.instance.espace[nextX][nextY], Winner)):
                 isWin= True
+            elif(item != None) : 
+                nextX = self.posX
+                nextY = self.posY
             self.environnement.instance.espace[self.posX][self.posY]=None
             self.posX = nextX
             self.posY = nextY
-           
+            if(self.invincible> 0) : 
+                self.invincible -= 1
             self.environnement.instance.espace[self.posX][self.posY]=self
             
             
