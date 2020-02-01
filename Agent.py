@@ -1,6 +1,5 @@
 import random 
 
-
 class Agent:
     def __init__(self, posX, posY, env):
         pas = [-1,1]
@@ -43,7 +42,7 @@ class Agent:
         for i in possible :
             x,y = i
             if((x>=0 and x<taille) and (y>=0 and y<taille)):
-                if(self.environnement.instance.espace[x][y]==None):
+                if(self.environnement.instance.espace[x][y]==None ):
                     voisins['deplacement'].append((x,y))
                 else : 
                     voisins['agent'].append((x,y))

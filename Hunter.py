@@ -2,6 +2,8 @@ import random
 from Agent import Agent
 from Avatar import Avatar
 from Brick import Brick 
+from Defender import Defender
+from Winner import Winner
 class Hunter(Agent):
     def __init__(self, posX, posY, env):
         self.color = "red"
@@ -16,7 +18,7 @@ class Hunter(Agent):
             x,y = i
             if((x>=0 and x< taille) and (y>=0 and y< taille)):
                 item = self.environnement.instance.espace[x][y]
-                if (not (isinstance(item , Brick)) and not isinstance(item, Hunter)):
+                if (not (isinstance(item , Brick)) and not isinstance(item, Hunter)and not isinstance(item, Defender)and not isinstance(item, Winner)):
                     if(isinstance(item , Avatar)): 
                         return True
                     else : 

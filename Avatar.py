@@ -2,6 +2,8 @@ import random
 from Agent import Agent
 from Brick import Brick 
 
+from Defender import Defender
+from Winner import Winner 
 class Avatar(Agent):
     def __init__(self,  posX, posY, env):
         
@@ -10,13 +12,14 @@ class Avatar(Agent):
         self.nextDirection =[]
         self.dijkstra_status=[]
         self.visite=None
+        self.defender_eat= 0
         
         super(Avatar, self).__init__(posX, posY, env)
 
     def decide(self, taille) : 
         self.setNextDirection()
         
-        
+        isWin=False
         if(self.movement != None): 
             
             nextX = self.posX
@@ -37,6 +40,13 @@ class Avatar(Agent):
             if(isinstance( self.environnement.instance.espace[nextX][nextY], Brick) ) : 
                 nextX = self.posX
                 nextY = self.posY
+            if(isinstance(self.environnement.instance.espace[nextX][nextY], Defender)):
+                defender = self.environnement.instance.espace[nextX][nextY]
+                defender.isEat = True 
+                self.defender_eat += 1
+            if(isinstance(self.environnement.instance.espace[nextX][nextY], Winner)):
+                
+                isWin= True
             self.environnement.instance.espace[self.posX][self.posY]=None
             self.posX = nextX
             self.posY = nextY
@@ -44,7 +54,7 @@ class Avatar(Agent):
             self.environnement.instance.espace[self.posX][self.posY]=self
             
             
-    
+        return isWin
 
     
 

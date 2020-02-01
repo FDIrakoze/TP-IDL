@@ -33,10 +33,13 @@ def init():
         obstacles = int(nbObstacles.get())
         v_avatar = int(V_avatar.get())
         v_hunter = int(V_hunter.get())
+
+        defenderNb = int(defender_number.get())
+        defenderTTL = int(defender_time_to_live.get())
         if(nbTours == 0):
             infinite = True
             nbTours=1
-        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter, time_delay)
+        sma= SMA(nbCase, isTorique, hunter,obstacles, v_avatar, v_hunter, time_delay , defenderNb, defenderTTL)
         dir=["right", "left", "up", "down"]
         sma.sendNextDirection(dir[random.randint(0, len(dir)-1)])
         taille_canvas =(700 + 700%nbCase)
@@ -81,6 +84,7 @@ def runOnce():
     
     if not (stop_state) : 
         isFinish = sma.runOnce()
+        isWin = sma.isWin
         update_grille()
     
     if nbTours > 0 and not isFinish:
@@ -89,6 +93,13 @@ def runOnce():
         fenetre.after(time_delay,runOnce)
     if(isFinish): 
         answer  = messagebox.showinfo(title="Looser Window", message="You Damn Looser")
+        if(answer == "ok"):
+            init()
+            running = False
+            return
+    if(isWin): 
+        answer  = messagebox.showinfo(title="Winner", message="You Win !!!")
+        
         if(answer == "ok"):
             init()
             running = False
@@ -134,8 +145,8 @@ fenetre.title("TP1")
 frame1=Frame()
 vTab= IntVar ()
 vTorique= IntVar()
-Checkbutton (frame1, text="tableau", variable = vTab).grid(row=5,column=1)
-Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=5,column=0)
+Checkbutton (frame1, text="tableau", variable = vTab).grid(row=6,column=1)
+Checkbutton (frame1, text="Torique", variable = vTorique).grid(row=6,column=0)
 valeur=Button(frame1,text="valider",command=init)
 stop_button=Button(frame1,text="Stop",command=stop_process)
 runButton=Button(frame1,text="Run",command=run)
@@ -145,8 +156,11 @@ Label(frame1,text= "Veuillez entrer le nombre d'obsatcles").grid(row=1,column=0)
 Label (frame1, text="Veuillez entrer la vitesse de l'avatar").grid(row=1, column=2)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)
-Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=3,column=0)
-Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=4,column=0)
+
+Label(frame1,text= "Veuillez entrer le nombre de defenders ").grid(row=3,column=0)
+Label(frame1,text= "Veuillez entrer la durée de vie des defenders").grid(row=3,column=2)
+Label(frame1,text= "Veuillez entrer le nombre de tours").grid(row=4,column=0)
+Label(frame1,text= "Veuillez entrer le delay entre chaque tours (ms)").grid(row=5,column=0)
  
 nbHunter=Entry(frame1)
 nbObstacles = Entry(frame1)
@@ -157,6 +171,8 @@ case=Entry(frame1)
 torique=Entry(frame1)
 delay=Entry(frame1)
 tours=Entry(frame1)
+defender_time_to_live=Entry(frame1)
+defender_number=Entry(frame1)
 
 
 nbHunter.grid(row=0,column=1)
@@ -165,14 +181,16 @@ V_hunter.grid(row= 0, column=3)
 V_avatar.grid(row= 1, column=3)
 
 case.grid(row=2, column=1)
-tours.grid(row=3, column=1)
-delay.grid(row=4,column=1)
-valeur.grid(row=6,column=0)
-runButton.grid(row= 6, column= 1)
-stop_button.grid(row=6, column=2)
+defender_number.grid(row=3, column=1)
+defender_time_to_live.grid(row=3, column=3)
+tours.grid(row=4, column=1)
+delay.grid(row=5,column=1)
+valeur.grid(row=7,column=0)
+runButton.grid(row= 7, column= 1)
+stop_button.grid(row=7, column=2)
 
 
-Can=Canvas(fenetre,height=700,width=700,bg="cyan")
+Can=Canvas(fenetre,height=700,width=700,bg="white")
 
 fenetre.bind("<Right>", rightKey)
 fenetre.bind("<Left>", leftKey)

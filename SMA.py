@@ -3,6 +3,8 @@ from Agent import Agent
 from Avatar import Avatar
 from Hunter import Hunter
 from Brick import Brick
+from Defender import Defender
+from Winner import Winner
 import random
 class SMA:
     
@@ -10,25 +12,30 @@ class SMA:
 
 
 
-    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter, time_delay):
+    def __init__(self, taille, torique,nbHunter, nbObstacles, v_avatar, v_hunter, time_delay, nbDefender, defenderTTL):
         tab = self.init_tab(taille) 
         self.environnement = Environnement(tab, torique)
         self.taille=taille
         self.avatar = None
         
         self.agents = []
-        self.init_agent(nbHunter,nbObstacles,  taille)
+        
+        self.nbDefender=nbDefender
+        self.defenderTTL = defenderTTL
+        self.isWin = False 
+        self.winnerSpawn = False
+        self.init_agent(nbHunter,nbObstacles, nbDefender,  taille)
         self.visite=None
         self.tick_speed = time_delay
         self.avatar_speed = v_avatar
         self.hunter_speed = v_hunter
         self.tour = 0
-
+        
 
         
         
 
-    def init_agent(self, nbHunter,nbObstacles, taille):
+    def init_agent(self, nbHunter,nbObstacles, nbDefender, taille):
         list_ij = []
         for i in range(taille) : 
             for j in range(taille) :
@@ -63,20 +70,54 @@ class SMA:
         self.agents.append(self.avatar)
         self.environnement.instance.espace[x][y] = self.avatar
 
+
+        while  nbDefender > 0 :
+            if(len(list_ij) == 1 and len(list_ij)==1): 
+                i,j = list_ij.pop(0)
+            else : 
+                i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
+
+            defender= Defender(i,j, self.environnement, self.defenderTTL)
+            self.agents.append(defender)
+            self.environnement.instance.espace[i][j] = defender        
+            nbDefender-=1
+
+
     def init_tab(self,taille):
         tab=[[None for j in range(taille)] for i in range(taille)]
         return tab
 
     def updateAgents(self) : 
         self.agents=[]
+        freeSpace=[]
         avatar = 0
         hunter=0
+        defender = 0
+        spawn_winner = False
         for i in range(self.taille) : 
             for j in range(self.taille):
-                
                 agent = self.environnement.instance.espace[i][j]
                 if(agent != None):
+                    if(isinstance(agent, Defender)):
+                        defender += 1
+                    if(isinstance(agent, Avatar)) : 
+                        spawn_winner = agent.defender_eat == 4
                     self.agents.append(agent)
+                else : 
+                    freeSpace.append((i,j))
+        if(defender == 0) :
+            for n in range(self.nbDefender) : 
+                x,y = freeSpace.pop(random.randint(0, len(freeSpace)-1))
+                new_defender = Defender(x, y, self.environnement, self.defenderTTL)
+                self.environnement.instance.espace[x][y] = new_defender
+                self.agents.append(new_defender)
+        if(spawn_winner == True and not self.winnerSpawn): 
+            self.winnerSpawn=True
+            x,y = freeSpace.pop(random.randint(0, len(freeSpace)-1))
+            winner = Winner(x,y, self.environnement)
+            self.environnement.instance.espace[x][y] = winner
+            self.agents.append(winner)
+
 
     def runOnce(self):
         self.updateAgents()
@@ -84,13 +125,16 @@ class SMA:
         self.visite[self.avatar.posX][self.avatar.posY] = 0
         self.dijkstra([(self.avatar.posX,self.avatar.posY)])
         
-        for a in self.agents :                
+        for a in self.agents :             
             if(isinstance(a, Hunter) and ((self.tour*self.tick_speed) % self.hunter_speed) ==0): 
                 isFinish = a.decide(self.taille, self.visite)
                 if isFinish : 
                     return True
             elif(isinstance(a, Avatar) and ((self.tour*self.tick_speed) % self.avatar_speed) ==0) :
-                 a.decide(self.taille)
+                 self.isWin = a.decide(self.taille)
+                
+            elif(isinstance(a, Defender)):
+                a.decide()
                 
         self.tour += 1
             
