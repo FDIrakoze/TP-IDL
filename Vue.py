@@ -44,6 +44,7 @@ def init():
         sma.sendNextDirection(dir[random.randint(0, len(dir)-1)])
         taille_canvas =(700 + 700%nbCase)
         Can.config(width=taille_canvas, height=taille_canvas)
+        Can.focus_set()
         update_grille()
 
     except ValueError as e:
@@ -81,7 +82,7 @@ def runOnce():
     global running 
 
     isFinish = False
-    
+    isWin=False
     if not (stop_state) : 
         isFinish = sma.runOnce()
         isWin = sma.isWin
@@ -110,6 +111,7 @@ def run():
     global running
     stop_state = False
     
+    fenetre.bind("<KeyPress>", eventKey)
     if not running : 
         running = True
         runOnce()
@@ -133,12 +135,27 @@ def upKey(event) :
     global sma 
     sma.sendNextDirection("up")
     #print("Up pressed")
-   
+
+def eventKey(event) : 
+    global sma 
+    key = event.keysym
+    if(key == "a") : 
+        sma.sendSpeedHunter(0)
+        # acceleration Hunter
+    elif(key == "z") : 
+        sma.sendSpeedHunter(1)
+        #decceleration Hunter
+    elif(key =="o") :
+        sma.sendSpeedAvatar(0)
+        # acceleration Avatar
+    elif(key =='p') :
+        sma.sendSpeedAvatar(1)
+        # decceleration Avatar
+
 def stop_process() : 
     global stop_state
     stop_state = True
        
-
 
 fenetre = Tk()
 fenetre.title("TP1")
@@ -196,6 +213,7 @@ fenetre.bind("<Right>", rightKey)
 fenetre.bind("<Left>", leftKey)
 fenetre.bind("<Up>", upKey)
 fenetre.bind("<Down>", downKey)
+
 
 
 

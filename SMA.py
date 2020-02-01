@@ -126,11 +126,11 @@ class SMA:
         self.dijkstra([(self.avatar.posX,self.avatar.posY)])
         
         for a in self.agents :             
-            if(isinstance(a, Hunter) and ((self.tour*self.tick_speed) % self.hunter_speed) ==0): 
+            if(isinstance(a, Hunter) and ((self.tour) % self.hunter_speed) ==0): 
                 isFinish = a.decide(self.taille, self.visite)
                 if isFinish : 
                     return True
-            elif(isinstance(a, Avatar) and ((self.tour*self.tick_speed) % self.avatar_speed) ==0) :
+            elif(isinstance(a, Avatar) and ((self.tour) % self.avatar_speed) ==0) :
                  self.isWin = a.decide(self.taille)
                 
             elif(isinstance(a, Defender)):
@@ -168,3 +168,15 @@ class SMA:
     def printDijkstra(self): 
         for i in self.visite : 
             print(i)
+
+    def sendSpeedHunter(self,speed) : 
+        if(speed ==  0 and self.hunter_speed > 1) : 
+            self.hunter_speed -= 1
+        elif(speed == 1) : 
+            self.hunter_speed += 1
+
+    def sendSpeedAvatar(self,speed) : 
+        if(speed ==  0 and self.avatar_speed > 1) : 
+            self.avatar_speed -= 1
+        elif(speed == 1) : 
+            self.avatar_speed += 1

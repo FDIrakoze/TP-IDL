@@ -36,3 +36,5 @@ class Hunter(Agent):
         self.posY = nextY
         self.environnement.instance.espace[self.posX][self.posY] = self
         return False
+    
+    
