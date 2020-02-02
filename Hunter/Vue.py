@@ -39,6 +39,7 @@ def init():
         a_invincible = int(avatar_invincible.get())
         defenderNb = int(defender_number.get())
         defenderTTL = int(defender_time_to_live.get())
+        obstacles = int (((nbCase ** 2) * obstacles)//100)
         if(nbTours == 0):
             infinite = True
             nbTours=1
@@ -181,7 +182,7 @@ stop_button=Button(frame1,text="Stop",command=stop_process)
 runButton=Button(frame1,text="Run",command=run)
 Label(frame1,text= "Veuillez entrer le nombre de hunter").grid(row=0,column=0)
 Label (frame1, text="Veuillez entrer la vitesse du hunter").grid(row=0, column=2)
-Label(frame1,text= "Veuillez entrer le nombre d'obsatcles").grid(row=1,column=0)
+Label(frame1,text= "Veuillez entrer le pourcentage d'obsatcles").grid(row=1,column=0)
 Label (frame1, text="Veuillez entrer la vitesse de l'avatar").grid(row=1, column=2)
 
 Label(frame1,text= "Veuillez entrer la taille de la grille").grid(row=2,column=0)

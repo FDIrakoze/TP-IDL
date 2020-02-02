@@ -3,6 +3,7 @@ from Core.Agent import Agent
 from Fish import Fish
 class Shark(Agent):
     def __init__(self, posX, posY, env, breedTime, starveTime, maturite):
+        super(Shark, self).__init__(posX, posY, env)
         if maturite >0: 
             self.color = "#ff6781"
         else : 
@@ -13,7 +14,7 @@ class Shark(Agent):
         self.initialstarveTime = starveTime
         self.maturite = maturite
         self.alive = True
-        super(Shark, self).__init__(posX, posY, env)
+        
 
     def canEat(self,voisins):
         fish = []

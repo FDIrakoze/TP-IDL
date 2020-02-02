@@ -6,7 +6,7 @@ from Defender import Defender
 from Winner import Winner 
 class Avatar(Agent):
     def __init__(self,  posX, posY, env, invincible):
-        
+        super(Avatar, self).__init__(posX, posY, env)
         self.color = "green"
         self.movement = None
         self.nextDirection =[]
@@ -16,7 +16,7 @@ class Avatar(Agent):
         self.invincible = 0
         self.initial_invincible = invincible
         
-        super(Avatar, self).__init__(posX, posY, env)
+        
 
     def decide(self, taille) : 
         self.setNextDirection()

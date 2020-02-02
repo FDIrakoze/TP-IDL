@@ -2,6 +2,7 @@ import random
 from Core.Agent import Agent
 class Fish(Agent):
     def __init__(self,  posX, posY, env, breedTime, maturite):
+        super(Fish, self).__init__(posX, posY, env)
         if(maturite>0) : 
             self.color="yellow"
         else : 
@@ -10,7 +11,7 @@ class Fish(Agent):
         self.initialBreedTime = breedTime
         self.alive = True
         self.maturite = maturite
-        super(Fish, self).__init__(posX, posY, env)
+        
 
     def decide(self, taille) : 
         newFish = 0

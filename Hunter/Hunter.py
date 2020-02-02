@@ -6,8 +6,9 @@ from Defender import Defender
 from Winner import Winner
 class Hunter(Agent):
     def __init__(self, posX, posY, env):
-        self.color = "red"
         super(Hunter, self).__init__(posX, posY, env)
+        self.color = "red"
+        
 
     
 
