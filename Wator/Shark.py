@@ -77,5 +77,5 @@ class Shark(Agent):
             
         
         #self.environnement.instance.espace[self.posX][self.posY] = self
-
+    
         return (newShark,deathShark, killFish)

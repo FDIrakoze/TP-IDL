@@ -57,7 +57,7 @@ class Agent:
         self.environnement.instance.espace[self.posX][self.posY] = self
         return collision
 
-def voisin(self, taille): 
+    def voisin(self, taille): 
         #retourne une liste de tuple avec les pos x,y vide 
         """
         [-1][1] |[0][1]   |[1][1]
