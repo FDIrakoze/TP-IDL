@@ -45,3 +45,8 @@
 
 *Wator*
 > python3 Wator/Vue.py
+
+
+### ***Generer les diagramme de classes***   
+> pyreverse -o png -p < name > < Project folder > Core/   
+> *ex : pyreverse -o png -p Wator Wator/ Core/*
