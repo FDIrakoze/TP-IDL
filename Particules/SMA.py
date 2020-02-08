@@ -27,10 +27,10 @@ class SMA:
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
-            #if(self.environnement.instance.espace[i][j] == None) : 
+            #if(self.environnement.getInstance().espace[i][j] == None) :
             agent= Agent(i,j, self.environnement)
             self.agents.append(agent)
-            self.environnement.instance.espace[i][j] = agent        
+            self.environnement.getInstance().espace[i][j] = agent
             nbagent-=1
 
     def init_tab(self,taille):

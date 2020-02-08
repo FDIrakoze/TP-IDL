@@ -10,7 +10,7 @@ class Defender(Agent):
 
     def decide(self) : 
        if(self.time_to_live <= 0 ): 
-           self.environnement.instance.espace[self.posX][self.posY]= None
+           self.environnement.getInstance().espace[self.posX][self.posY]= None
 
        elif(self.isEat == False) : 
            self.time_to_live -= 1

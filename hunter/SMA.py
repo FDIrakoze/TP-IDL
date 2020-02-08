@@ -48,10 +48,10 @@ class SMA:
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
-            #if(self.environnement.instance.espace[i][j] == None) : 
+            #if(self.environnement.getInstance().espace[i][j] == None) :
             hunter= Hunter(i,j, self.environnement)
             self.agents.append(hunter)
-            self.environnement.instance.espace[i][j] = hunter        
+            self.environnement.getInstance().espace[i][j] = hunter
             nbHunter-=1
 
         while nbObstacles > 0 :
@@ -60,16 +60,16 @@ class SMA:
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
-            #if(self.environnement.instance.espace[i][j] == None) : 
+            #if(self.environnement.getInstance().espace[i][j] == None) :
             brick= Brick(i,j, self.environnement)
             self.agents.append(brick)
-            self.environnement.instance.espace[i][j] = brick        
+            self.environnement.getInstance().espace[i][j] = brick
             nbObstacles-=1
 
         x,y = list_ij.pop(random.randint(0,len(list_ij)-1))
         self.avatar = Avatar(x, y, self.environnement,a_invincible)
         self.agents.append(self.avatar)
-        self.environnement.instance.espace[x][y] = self.avatar
+        self.environnement.getInstance().espace[x][y] = self.avatar
 
 
         while  nbDefender > 0 :
@@ -80,7 +80,7 @@ class SMA:
 
             defender= Defender(i,j, self.environnement, self.defenderTTL)
             self.agents.append(defender)
-            self.environnement.instance.espace[i][j] = defender        
+            self.environnement.getInstance().espace[i][j] = defender
             nbDefender-=1
 
 
@@ -97,7 +97,7 @@ class SMA:
         spawn_winner = False
         for i in range(self.taille) : 
             for j in range(self.taille):
-                agent = self.environnement.instance.espace[i][j]
+                agent = self.environnement.getInstance().espace[i][j]
                 if(agent != None):
                     if(isinstance(agent, Defender)):
                         defender += 1
@@ -110,13 +110,13 @@ class SMA:
             for n in range(self.nbDefender) : 
                 x,y = freeSpace.pop(random.randint(0, len(freeSpace)-1))
                 new_defender = Defender(x, y, self.environnement, self.defenderTTL)
-                self.environnement.instance.espace[x][y] = new_defender
+                self.environnement.getInstance().espace[x][y] = new_defender
                 self.agents.append(new_defender)
         if(spawn_winner == True and not self.winnerSpawn): 
             self.winnerSpawn=True
             x,y = freeSpace.pop(random.randint(0, len(freeSpace)-1))
             winner = Winner(x,y, self.environnement)
-            self.environnement.instance.espace[x][y] = winner
+            self.environnement.getInstance().espace[x][y] = winner
             self.agents.append(winner)
 
 

@@ -31,10 +31,10 @@ class SMA:
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
-            #if(self.environnement.instance.espace[i][j] == None) : 
+            #if(self.environnement.getInstance().espace[i][j] == None) :
             fish= Fish(i,j, self.environnement, fishBreedTime,0)
             self.agents.append(fish)
-            self.environnement.instance.espace[i][j] = fish        
+            self.environnement.getInstance().espace[i][j] = fish
             nbfish-=1
         while nbShark > 0 :
             if(len(list_ij) == 1 and len(list_ij)==1): 
@@ -42,10 +42,10 @@ class SMA:
             else : 
                 i,j= list_ij.pop(random.randint(0,len(list_ij)-1))
                
-            #if(self.environnement.instance.espace[i][j] == None) : 
+            #if(self.environnement.getInstance().espace[i][j] == None) :
             shark= Shark(i,j, self.environnement, sharkBreedTime, sharkStarveTime,0)
             self.agents.append(shark)
-            self.environnement.instance.espace[i][j] = shark        
+            self.environnement.getInstance().espace[i][j] = shark
             nbShark-=1
 
     def init_tab(self,taille):
@@ -59,13 +59,13 @@ class SMA:
         for i in range(self.taille) : 
             for j in range(self.taille):
                 
-                agent = self.environnement.instance.espace[i][j]
+                agent = self.environnement.getInstance().espace[i][j]
                 if(agent !=None and agent.alive and isinstance(agent,Fish)):
                     fish+=1
                 elif(agent !=None and agent.alive and isinstance(agent,Shark)):
                     shark+=1
                 if(agent != None and not agent.alive) : 
-                    self.environnement.instance.espace[i][j] = None 
+                    self.environnement.getInstance().espace[i][j] = None
                     continue
                 if(agent != None):
                     self.agents.append(agent)

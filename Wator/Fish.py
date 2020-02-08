@@ -34,13 +34,13 @@ class Fish(Agent):
             
             if(len(deplacement)>0):
                 x,y = deplacement[random.randint(0,len(deplacement)-1)]
-                self.environnement.instance.espace[self.posX][self.posY] = fish
-                self.environnement.instance.espace[x][y] = self
+                self.environnement.getInstance().espace[self.posX][self.posY] = fish
+                self.environnement.getInstance().espace[x][y] = self
                 self.posX = x
                 self.posY = y
             
         else :
             deathFish=1
-        #self.environnement.instance.espace[self.posX][self.posY] = self
+        #self.environnement.getInstance().espace[self.posX][self.posY] = self
 
         return (newFish,deathFish, tmp)

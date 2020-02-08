@@ -39,24 +39,24 @@ class Avatar(Agent):
                 nextX = self.posX
             if(nextY < 0 or nextY >= taille) : 
                 nextY = self.posY
-            item  = self.environnement.instance.espace[nextX][nextY]
+            item  = self.environnement.getInstance().espace[nextX][nextY]
            
             if(isinstance(item, Defender)):
                 defender = item
                 defender.isEat = True 
                 self.defender_eat += 1
                 self.invincible = self.initial_invincible
-            elif(isinstance(self.environnement.instance.espace[nextX][nextY], Winner)):
+            elif(isinstance(self.environnement.getInstance().espace[nextX][nextY], Winner)):
                 isWin= True
             elif(item != None) : 
                 nextX = self.posX
                 nextY = self.posY
-            self.environnement.instance.espace[self.posX][self.posY]=None
+            self.environnement.getInstance().espace[self.posX][self.posY]=None
             self.posX = nextX
             self.posY = nextY
             if(self.invincible> 0) : 
                 self.invincible -= 1
-            self.environnement.instance.espace[self.posX][self.posY]=self
+            self.environnement.getInstance().espace[self.posX][self.posY]=self
             
             
         return isWin

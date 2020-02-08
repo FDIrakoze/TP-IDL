@@ -58,8 +58,8 @@ def update_grille():
         x = x0 + Case * r + Case // 2
         for c in range(nbCase):
             y = y0 + Case * c + Case // 2   
-            if sma.environnement.instance.espace[r][c]!=None:
-                Affich[(r, c)]= Can.create_oval(x-((taille_canvas//2)//nbCase),y-((taille_canvas//2)//nbCase),x+((taille_canvas//2)//nbCase),y+((taille_canvas//2)//nbCase),fill=sma.environnement.instance.espace[r][c].color)
+            if sma.environnement.getInstance().espace[r][c]!=None:
+                Affich[(r, c)]= Can.create_oval(x-((taille_canvas//2)//nbCase),y-((taille_canvas//2)//nbCase),x+((taille_canvas//2)//nbCase),y+((taille_canvas//2)//nbCase),fill=sma.environnement.getInstance().espace[r][c].color)
             else:
                 Affich[(r, c)] = Can.create_text(x, y, text='')  
 
